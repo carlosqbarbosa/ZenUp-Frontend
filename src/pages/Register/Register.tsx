@@ -5,7 +5,7 @@ import LogoRoxa from "../../assets/LogoRoxa.png";
 import FormRegister from "../../components/Register/FormRegister";
 
 interface RegisterProps {
-  onBackToLogin: () => void;
+  onBackToLogin?: () => void;
 }
 
 export default function RegisterPage({ onBackToLogin }: RegisterProps) {

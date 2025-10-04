@@ -1,22 +1,41 @@
 import * as React from "react";
-import { Box, Typography, TextField, Button, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from "@mui/material";
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useNavigate } from "react-router-dom";
 import colors from "../../styles/colors";
 import LoginImg from "../../assets/LoginImg.png";
 import LogoRoxa from "../../assets/LogoRoxa.png";
 
 interface LoginProps {
-  onRegisterClick: () => void
+  onRegisterClick?: () => void;
 }
 
 export default function LoginPage({ onRegisterClick }: LoginProps) {
   const [showPassword, setShowPassword] = React.useState(false);
+  const navigate = useNavigate(); // 👈 Hook para navegar entre páginas
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => event.preventDefault();
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) =>
+    event.preventDefault();
 
- return (
+  // 🔹 Função chamada ao clicar em "Entrar"
+  const handleLogin = () => {
+    // Aqui futuramente você pode validar o login (API, etc.)
+    navigate("/dashboard"); // Redireciona para a página Dashboard
+  };
+
+  return (
     <Box
       sx={{
         display: "flex",
@@ -84,6 +103,10 @@ export default function LoginPage({ onRegisterClick }: LoginProps) {
 
         <Box
           component="form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleLogin();
+          }}
           sx={{
             display: "flex",
             flexDirection: "column",
@@ -140,6 +163,7 @@ export default function LoginPage({ onRegisterClick }: LoginProps) {
               boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.1)",
               "&:hover": { backgroundColor: "#1d0879" },
             }}
+            type="submit"
           >
             Entrar
           </Button>
