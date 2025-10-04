@@ -6,7 +6,11 @@ import colors from "../../styles/colors";
 import LoginImg from "../../assets/LoginImg.png";
 import LogoRoxa from "../../assets/LogoRoxa.png";
 
-export default function LoginPage() {
+interface LoginProps {
+  onRegisterClick: () => void
+}
+
+export default function LoginPage({ onRegisterClick }: LoginProps) {
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -149,7 +153,10 @@ export default function LoginPage() {
             }}
           >
             Ainda não possui conta?{" "}
-            <span style={{ color: colors.secondary, cursor: "pointer" }}>
+            <span
+              style={{ color: colors.secondary, cursor: "pointer" }}
+              onClick={onRegisterClick}
+            >
               Cadastre-se
             </span>
           </Typography>
