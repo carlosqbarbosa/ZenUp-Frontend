@@ -25,19 +25,19 @@ const FormLogin = () => {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    gap: "24px", // aumenta o espaçamento
-    mt: 2,       // margem superior opcional
+    gap: "24px",
+    mt: 2,  
   }}
 >
   <Box
     component="form"
     sx={{
-      "& .MuiTextField-root": { m: 1, width: "35ch" },
+      "& .MuiTextField-root": { m: 1, width: "55xh" },
       "& .MuiInputLabel-root": { color: colors.primary },
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      gap: "16px", // espaçamento entre campos
+      gap: "18px", 
     }}
     noValidate
     autoComplete="off"

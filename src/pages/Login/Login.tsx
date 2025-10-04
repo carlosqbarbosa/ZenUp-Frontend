@@ -88,7 +88,7 @@ export default function LoginPage({ onRegisterClick }: LoginProps) {
             display: "flex",
             flexDirection: "column",
             width: "100%",
-            maxWidth: "350px",
+            maxWidth: "450px",
             gap: 2,
           }}
         >
