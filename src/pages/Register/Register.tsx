@@ -1,9 +1,8 @@
-import * as React from "react";
 import { Box, Typography, Button } from "@mui/material";
 import colors from "../../styles/colors";
 import RegisterImg from "../../assets/Register.png";
 import LogoRoxa from "../../assets/LogoRoxa.png";
-import FormRegister from "./FormRegister";
+import FormRegister from "../../components/Register/FormRegister";
 
 interface RegisterProps {
   onBackToLogin: () => void;
