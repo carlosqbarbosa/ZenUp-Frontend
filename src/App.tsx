@@ -1,4 +1,3 @@
-// App.tsx
 import { BrowserRouter, Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import LoginPage from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
@@ -7,6 +6,24 @@ import Perfil from "./pages/Profile/Profile";
 import Faq from "./pages/FAQ/FAQ";
 import Logout from "./pages/Logout/Logout";
 
+
+function LoginWithNavigate() {
+  const navigate = useNavigate();
+
+  return (
+    <LoginPage
+      onRegisterClick={() => navigate("/register")}
+    />
+  );
+}
+
+// Wrapper com navegação para o Register (Já existia, mas aqui está completo)
+function RegisterWithNavigate() {
+  const navigate = useNavigate();
+  // Passa a função de navegação correta para o botão "Cadastre-se"
+  return <Register onBackToLogin={() => navigate("/")} />;
+}
+
 function App() {
   return (
     <BrowserRouter>
@@ -14,8 +31,8 @@ function App() {
         {/* Redireciona /login → / */}
         <Route path="/login" element={<Navigate to="/" />} />
 
-        {/* Login (tela inicial) */}
-        <Route path="/" element={<LoginPage onRegisterClick={() => {}} />} />
+        {/* Login (tela inicial) - AGORA USANDO O WRAPPER CORRETO */}
+        <Route path="/" element={<LoginWithNavigate />} />
 
         {/* Register com navegação */}
         <Route path="/register" element={<RegisterWithNavigate />} />
@@ -33,12 +50,4 @@ function App() {
   );
 }
 
-// Wrapper com navegação para o Register
-function RegisterWithNavigate() {
-  const navigate = useNavigate();
-  return <Register onBackToLogin={() => navigate("/")} />;
-}
-
 export default App;
-
-
