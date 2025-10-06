@@ -19,9 +19,12 @@ const FormRegister = () => {
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
+  const handleClickShowConfirmPassword = () =>
+    setShowConfirmPassword((show) => !show);
 
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     event.preventDefault();
   };
 
@@ -31,88 +34,123 @@ const FormRegister = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        gap: "20px",
-        mt: 2,
+        gap: 2,
+        width: "100%",
+        maxWidth: "400px",
       }}
     >
-      <Box
-        component="form"
-        sx={{
-          "& .MuiTextField-root": { m: 1, width: "35ch" },
-          "& .MuiInputLabel-root": { color: colors.primary },
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "16px",
+      {/* Nome completo */}
+      <TextField
+        fullWidth
+        label="Nome completo"
+        placeholder="admin@gmail.com"
+        InputProps={{
+          sx: {
+            borderRadius: "10px",
+          },
         }}
-        noValidate
-        autoComplete="off"
+      />
+
+      {/* Email + Domínio */}
+      <Box
+        sx={{
+          display: "flex",
+          gap: 1.5,
+          width: "100%",
+        }}
       >
-        <TextField label="Nome completo" id="name" />
-
-        {/* Email dividido em duas partes */}
-        <Box sx={{ display: "flex", gap: 1 }}>
-          <TextField label="Email" id="email" sx={{ width: "22ch" }} />
-          <TextField label="Domínio" id="domain" sx={{ width: "12ch" }} value="@exemplo.com" />
-        </Box>
-
-        {/* Senha */}
-        <FormControl sx={{ width: "35ch" }} variant="outlined">
-          <InputLabel htmlFor="password">Senha</InputLabel>
-          <OutlinedInput
-            id="password"
-            type={showPassword ? "text" : "password"}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-            label="Senha"
-          />
-        </FormControl>
-
-        {/* Confirmar Senha */}
-        <FormControl sx={{ width: "35ch" }} variant="outlined">
-          <InputLabel htmlFor="confirm-password">Confirmar Senha</InputLabel>
-          <OutlinedInput
-            id="confirm-password"
-            type={showConfirmPassword ? "text" : "password"}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  onClick={handleClickShowConfirmPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-            label="Confirmar Senha"
-          />
-        </FormControl>
-
-        {/* Checkbox e texto */}
-        <Box
+        <TextField
+          label="Email"
+          placeholder="adminexemplo"
           sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: 1,
-            width: "100%",
-            justifyContent: "center",
+            flex: 1,
+            "& .MuiOutlinedInput-root": { borderRadius: "10px" },
+          }}
+        />
+        <TextField
+          label="Domínio"
+          placeholder="@exemplo.com"
+          sx={{
+            width: "40%",
+            "& .MuiOutlinedInput-root": { borderRadius: "10px" },
+          }}
+        />
+      </Box>
+
+      {/* Senha */}
+      <FormControl fullWidth variant="outlined">
+        <InputLabel htmlFor="password">Senha</InputLabel>
+        <OutlinedInput
+          id="password"
+          type={showPassword ? "text" : "password"}
+          placeholder="********"
+          sx={{ borderRadius: "10px" }}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          }
+          label="Senha"
+        />
+      </FormControl>
+
+      {/* Confirmar senha */}
+      <FormControl fullWidth variant="outlined">
+        <InputLabel htmlFor="confirm-password">Confirmar Senha</InputLabel>
+        <OutlinedInput
+          id="confirm-password"
+          type={showConfirmPassword ? "text" : "password"}
+          placeholder="********"
+          sx={{ borderRadius: "10px" }}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                onClick={handleClickShowConfirmPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
+                {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          }
+          label="Confirmar Senha"
+        />
+      </FormControl>
+
+      {/* Checkbox */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          gap: 1,
+          width: "100%",
+          mt: 0.5,
+        }}
+      >
+        <Checkbox
+          size="small"
+          sx={{
+            color: colors.primary,
+            "&.Mui-checked": { color: colors.primary },
+            p: 0,
+          }}
+        />
+        <Typography
+          variant="body2"
+          sx={{
+            color: colors.textGray,
+            fontSize: "0.85rem",
           }}
         >
-          <Checkbox sx={{ color: colors.primary }} />
-          <Typography variant="body2" sx={{ color: colors.textGray }}>
-            aceito os termos
-          </Typography>
-        </Box>
+          aceito os termos
+        </Typography>
       </Box>
     </Box>
   );

@@ -14,9 +14,8 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
 import colors from "../../styles/colors";
-//import LoginImg from "../../assets/LoginImg.png";
 import LogoRoxa from "../../assets/LogoRoxa.png";
-import Teste from "../../assets/Teste.png";
+import LoginImg from "../../assets/LoginImg.png";
 
 interface LoginProps {
   onRegisterClick?: () => void;
@@ -42,11 +41,11 @@ export default function LoginPage({ onRegisterClick }: LoginProps) {
       display: "flex",
       justifyContent: "space-between",
       alignItems: "stretch",
-      height: "100dvh", // <--- usa altura dinâmica da viewport (melhor que 100vh)
+      height: "100dvh",
       width: "100%",
       overflow: "hidden",
       backgroundColor: "#fff",
-      margin: 0, // remove margem residual
+      margin: 0,
     }}
   >
     {/* --- Lado esquerdo: texto + formulário --- */}
@@ -194,7 +193,7 @@ export default function LoginPage({ onRegisterClick }: LoginProps) {
       sx={{
         display: { xs: "none", md: "flex" },
         width: "40%",
-        height: "100%", // <--- iguala a altura
+        height: "100%",
         overflow: "hidden",
         borderRadius: "40px 40px 35px 50px",
         marginRight: "40px",
@@ -202,11 +201,11 @@ export default function LoginPage({ onRegisterClick }: LoginProps) {
     >
       <Box
         component="img"
-        src={Teste}
+        src={LoginImg}
         alt="Equipe unida"
         sx={{
           width: "100%",
-          height: "100%", // <--- iguala também
+          height: "100%",
           objectFit: "cover",
           borderRadius: "inherit",
         }}
