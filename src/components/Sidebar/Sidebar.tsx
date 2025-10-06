@@ -17,7 +17,14 @@ export default function Sidebar() {
         borderRight: "1px solid #eee",
       }}
     >
-      <img src={Logo} alt="ZenUp Logo" style={{ height: 50, marginBottom: 30 }} />
+      <img 
+        src={Logo} 
+        alt="ZenUp Logo" 
+        style={{ 
+          height: 50, 
+          marginBottom: 30 
+          }} 
+      />
       <List sx={{ width: "100%" }}>
         {menuItems.map((item) => (
           <ListItem key={item} disablePadding>
