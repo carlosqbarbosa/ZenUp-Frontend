@@ -4,7 +4,7 @@ import Register from "./pages/Register/Register";
 import DashboardPage from "./pages/Dashboard/Dashboard";
 import Perfil from "./pages/Profile/Profile";
 import Faq from "./pages/FAQ/FAQ";
-import Logout from "./pages/Logout/Logout";
+//import Logout from "./pages/Logout/Logout";
 
 
 
@@ -42,7 +42,7 @@ function App() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/profile" element={<Perfil />} />
         <Route path="/faq" element={<Faq />} />
-        <Route path="/logout" element={<Logout />} />
+        {/*<Route path="/logout" element={<Logout />} /> */}
 
         {/* Página 404 */}
         <Route path="*" element={<h1>404 - Página não encontrada</h1>} />

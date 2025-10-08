@@ -1,13 +1,14 @@
 import { Box, Typography, List, ListItem, ListItemButton, ListItemText, ListItemIcon, Avatar } from "@mui/material";
-import { Link, useLocation } from "react-router-dom"; // Importamos o Link e o useLocation
+import { Link, useLocation } from "react-router-dom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonIcon from "@mui/icons-material/Person";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import LogoutIcon from "@mui/icons-material/Logout";
-import DescriptionIcon from "@mui/icons-material/Description"; // Ícone para Relatórios
+import DescriptionIcon from "@mui/icons-material/Description"; 
 import colors from "../../styles/colors";
-import Logo from "../../assets/LogoRoxa.png"; // Assumindo que a logo é importada aqui
-
+import Logo from "../../assets/LogoRoxa.png"; 
+import React, { useState } from 'react';
+import LogoutModal from '../Modals/LogoutModal'; 
 
 // Estrutura de links para fácil manutenção
 const primaryMenu = [
@@ -17,24 +18,25 @@ const primaryMenu = [
 
 const secondaryMenu = [
   { name: "Suporte", path: "/faq", Icon: HelpOutlineIcon },
-  { name: "Sair", path: "/logout", Icon: LogoutIcon },
+  { name: "Sair", path: "/logout", Icon: LogoutIcon }, 
 ];
 
-// Cor de fundo para o item ativo (Roxo 10% de transparência)
+// Cor de fundo para o item ativo
 const activeBgColor = 'rgba(67, 53, 167, 0.1)';
+const reportsCardPath = "/reports";
 
 // -------------------------------------------------------------
 // Componente Sidebar
 export default function Sidebar() {
-  const location = useLocation(); // Hook para saber qual rota está ativa
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  const location = useLocation(); 
   
-  // Função auxiliar para determinar se o item está ativo
   const isActive = (path: string) => location.pathname === path;
 
   return (
     <Box
       sx={{
-        width: 280, // Aumentei um pouco para caber melhor
+        width: 280, 
         minWidth: 280,
         backgroundColor: "#fff",
         display: "flex",
@@ -50,8 +52,8 @@ export default function Sidebar() {
         src={Logo} 
         alt="ZenUp Logo" 
         style={{ 
-            height: 60,
-            marginBottom: 40, 
+          height: 60,
+          marginBottom: 40, 
         }} 
       />
 
@@ -59,7 +61,6 @@ export default function Sidebar() {
       <List sx={{ width: "100%", padding: 0 }}>
         {primaryMenu.map((item) => (
           <ListItem key={item.name} disablePadding sx={{ mb: 1 }}>
-            {/* O Link envolve o ListItemButton para habilitar a navegação */}
             <ListItemButton
               component={Link} 
               to={item.path}
@@ -96,30 +97,25 @@ export default function Sidebar() {
           width: "100%",
           mt: 3,
           position: 'relative', 
-          // Estilos de fundo e borda do CARD
-          backgroundColor: activeBgColor,
+          backgroundColor: isActive(reportsCardPath) ? activeBgColor : '#fff',
           borderRadius: "8px", 
           padding: "10px 14px", 
           cursor: "pointer",
           boxShadow: '0px 4px 14px rgba(238, 238, 238, 0.8)',
-          
-          // Novo estilo para alinhar o texto verticalmente
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           height: '70px',
         }}
         component={Link}
-        to="/reports"
+        to={reportsCardPath}
       >
         <Box sx={{ 
-          // Este Box agora é apenas para os textos
           display: 'flex', 
           flexDirection: 'column', 
           gap: '8px',
           padding:'40px'
         }}>
-          {/* Textos */}
           <Typography variant="body2" sx={{ 
             color: colors.text, 
             lineHeight: 1, 
@@ -132,20 +128,19 @@ export default function Sidebar() {
             color: colors.primary,
             fontSize: '1.2rem',
             lineHeight: 1,
-            textDecoration: 'none', // Remove o sublinhado do link
+            textDecoration: 'none', 
           }}>
             Relatórios
           </Typography>
         </Box>
         
-        {/* Ícone flutuante à direita e centralizado verticalmente */}
         <Box sx={{ 
-          backgroundColor: '#4335A7',
+          backgroundColor: colors.primary,
           borderRadius: '50%', 
           width: '40px',
           height: '40px',
           position: 'absolute',
-          right: 60,
+          right: 15,
           top: '50%',
           transform: 'translateY(-50%)',
           display: 'flex',
@@ -153,47 +148,71 @@ export default function Sidebar() {
           justifyContent: 'center',
           boxShadow: '0px 4px 8px #4235a75d',
         }}>
-          {/* icone do botão baixae seus relatorios */}
           <DescriptionIcon sx={{ color: '#fff' }} /> 
         </Box>
       </Box>
 
       {/* 4. Menu Secundário (Rodapé da barra lateral) */}
       <List sx={{ 
-      width: "100%", 
-      mt: 'auto', 
-      borderTop: '1px solid #eee',
+        width: "100%", 
+        mt: 'auto', 
+        borderTop: '1px solid #eee',
       }}>
       
-        {secondaryMenu.map((item) => (
-          <ListItem key={item.name} disablePadding>
-            <ListItemButton
-              component={Link} 
-              to={item.path}
-              sx={{ borderRadius: "12px", padding: "10px 15px" }}
-            >
-              <ListItemIcon sx={{ minWidth: 40, color: colors.textGray }}>
-                <item.Icon />
-              </ListItemIcon>
-              <ListItemText
-                primary={
-                  <Typography sx={{ fontWeight: 500, color: colors.textGray }}>{item.name}</Typography>
-                }
-              />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        {secondaryMenu.map((item) => {
+          const isLogout = item.name === "Sair";
+          
+          return (
+            <ListItem key={item.name} disablePadding>
+              <ListItemButton
+                component={isLogout ? Box : Link} 
+                to={isLogout ? undefined : item.path} 
+                onClick={isLogout ? () => setIsLogoutModalOpen(true) : undefined} 
+                
+                sx={{ 
+                    borderRadius: "12px", 
+                    padding: "10px 15px",
+                    backgroundColor: isLogout ? (isActive(item.path) ? activeBgColor : 'transparent') : 'transparent',
+                    "&:hover": { backgroundColor: isLogout ? '#f0f0f0' : '#f0f0f0' }
+                }}
+              >
+                <ListItemIcon 
+                    sx={{ 
+                        minWidth: 40, 
+                        // CORREÇÃO: Usa colors.textGray para manter a cor neutra do design.
+                        color: colors.textGray 
+                    }}
+                >
+                  <item.Icon />
+                </ListItemIcon>
+                <ListItemText
+                  primary={
+                    <Typography 
+                        sx={{ 
+                            fontWeight: 500, 
+                            // CORREÇÃO: Usa colors.textGray para manter a cor neutra do design.
+                            color: colors.textGray 
+                        }}
+                    >
+                      {item.name}
+                    </Typography>
+                  }
+                />
+              </ListItemButton>
+            </ListItem>
+          )
+        })}
       </List>
       
       {/* 5. Informações do Usuário (Rodapé) */}
-       <Box sx={{ 
+      <Box sx={{ 
         display: 'flex', 
         alignItems: 'center', 
         padding: '16px', 
         borderTop: '1px solid #eee', 
         width: '100%',
         mt: 2,
-       }}>
+        }}>
           <Avatar 
             sx={{ 
               width: 50, 
@@ -207,7 +226,13 @@ export default function Sidebar() {
             <Typography variant="body2" sx={{ color: colors.textGray }}>Bem vindo de volta!</Typography>
             <Typography sx={{ fontWeight: 600, color: colors.primary }}>Felipe Gusmão</Typography>
           </Box>
-       </Box>
+      </Box>
+
+      {/* 6. RENDERIZAÇÃO DA MODAL DE LOGOUT (Overlay) */}
+      <LogoutModal
+        open={isLogoutModalOpen}
+        onClose={() => setIsLogoutModalOpen(false)}
+      />
     </Box>
   );
 }
