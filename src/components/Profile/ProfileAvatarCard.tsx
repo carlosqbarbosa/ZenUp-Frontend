@@ -12,7 +12,6 @@ const ProfileAvatarCard: React.FC<ProfileAvatarCardProps> = ({ fullName }) => {
 
     return (
         <Box
-            // **IMPORTANTE:** Alinhamos ao topo e removemos a altura forçada.
             sx={{
                 p: 0, 
                 display: 'flex',
@@ -20,8 +19,6 @@ const ProfileAvatarCard: React.FC<ProfileAvatarCardProps> = ({ fullName }) => {
                 alignItems: 'center',
                 gap: 2,
                 mt: 2,
-                // Removemos 'height: 100%' para evitar que o flexbox tente preencher
-                // o espaço desnecessariamente, o que pode causar o problema de alinhamento.
             }}
         >
             <Avatar
@@ -45,8 +42,6 @@ const ProfileAvatarCard: React.FC<ProfileAvatarCardProps> = ({ fullName }) => {
             >
                 {displayName}
             </Typography>
-            
-            {/* Removemos o <Box sx={{ flexGrow: 1 }} /> que pode estar empurrando o conteúdo */}
         </Box>
     );
 };

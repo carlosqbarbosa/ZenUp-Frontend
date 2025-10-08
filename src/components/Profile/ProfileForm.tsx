@@ -1,11 +1,8 @@
 import { Box, TextField, Button, Typography, Grid } from "@mui/material";
-// Substitua pelo caminho correto do seu objeto de cores
 import colors from "../../styles/colors"; 
 import React from "react";
-// IMPORTAÇÃO CORRIGIDA DE TIPOS
 import type { ProfileFormProps } from "../../types/profile"; 
 
-// Estilo customizado para os TextFields: Sem Outline, só a borda inferior.
 const CustomTextFieldStyle = {
     '& .MuiOutlinedInput-notchedOutline': {
         border: 'none',
@@ -34,7 +31,6 @@ const CustomTextFieldStyle = {
     }
 };
 
-// Componente auxiliar para padronizar o label de cada campo
 const InputWrapper: React.FC<{ label: string, children: React.ReactNode }> = ({ label, children }) => (
     <Box sx={{ width: '100%', mb: 2 }}>
         <Typography 

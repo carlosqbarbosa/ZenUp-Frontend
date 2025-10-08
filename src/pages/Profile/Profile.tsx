@@ -6,7 +6,7 @@ import React from "react";
 import type { ProfileData } from "../../types/profile";
 import ProfileForm from "../../components/Profile/ProfileForm"; 
 import ProfileHeader from "../../components/Profile/ProfileHeader";
-import ProfileAvatarCard from "../../components/Profile/ProfileAvatarCard"; // Este é o componente da foto
+import ProfileAvatarCard from "../../components/Profile/ProfileAvatarCard"; 
 
 const initialProfileData: ProfileData = {
     nomeCompleto: "Felipe Gusmão Pereira",
@@ -65,7 +65,7 @@ export default function Perfil() {
                         />
                     </Grid>
                     
-                    {/* COLUNA DIREITA: AVATAR - ESTE É ONDE A IMAGEM DEVE ESTAR */}
+                    {/* COLUNA DIREITA: AVATAR */}
                     <Grid item xs={12} md={5}>
                         <ProfileAvatarCard fullName={profileData.nomeCompleto} />
                     </Grid>

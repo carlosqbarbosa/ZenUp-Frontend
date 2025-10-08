@@ -1,6 +1,5 @@
-// src/types/profile.ts
 
-// Usamos 'type' para ser compatível com 'export type' em ambientes modernos.
+// 'type' para ser compatível com 'export type' em ambientes modernos.
 export type ProfileData = {
     nomeCompleto: string;
     email: string;
@@ -10,7 +9,6 @@ export type ProfileData = {
     cidade: string;
 }
 
-// Opcional, mas útil: Tipagem para as props do formulário
 export interface ProfileFormProps {
     profileData: ProfileData;
     isEditing: boolean;
