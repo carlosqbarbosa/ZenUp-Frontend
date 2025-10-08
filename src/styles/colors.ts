@@ -5,7 +5,8 @@ const colors = {
   text: "#333333",
   textGray: "#425166",
   white: "#FFFFFF",
-  buttonPurple: "#4335A7"
+  buttonPurple: "#4335A7",
+  greenSuccess: "#099e74ff", 
 };
 
 export default colors;
