@@ -33,7 +33,7 @@ function App() {
   );
 }
 
-// Wrapper com navegação para o Register
+// Wrapper com navegação para o Register - teste
 function RegisterWithNavigate() {
   const navigate = useNavigate();
   return <Register onBackToLogin={() => navigate("/")} />;
