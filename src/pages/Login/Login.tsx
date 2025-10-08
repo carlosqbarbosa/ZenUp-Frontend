@@ -1,5 +1,3 @@
-// LoginPage.tsx
-
 import * as React from "react";
 import {
   Box,
@@ -27,15 +25,15 @@ export default function LoginPage({ onRegisterClick }: LoginProps) {
   };
 
   return (
-    // CONTÊINER PRINCIPAL: O pai de tudo, sem scroll externo
+    // CONTÊINER PRINCIPAL
     <Box
       sx={{
         display: "flex",
         justifyContent: "space-between",
-        alignItems: "stretch", // Garante que ambos os lados ocupem a altura
+        alignItems: "stretch",
         height: "100dvh", 
-        width: "100%", // MUDANÇA: Use 100% em vez de 100vw
-        overflow: "hidden", // CRÍTICO: Impede scroll no nível da página
+        width: "100%", 
+        overflow: "hidden", 
         backgroundColor: "#fff",
       }}
     >
@@ -45,11 +43,11 @@ export default function LoginPage({ onRegisterClick }: LoginProps) {
           width: { xs: "100%", md: "50%" },
           display: "flex",
           flexDirection: "column",
-          alignItems: "center", // Centraliza o conteúdo horizontalmente no container
-          justifyContent: "center", // MUDANÇA: Centraliza o conteúdo verticalmente no container pai
+          alignItems: "center", 
+          justifyContent: "center",
           
           px: { xs: 4, md: 8 },
-          py: { xs: 4, md: 8 }, // Padding vertical responsivo para telas pequenas e grandes
+          py: { xs: 4, md: 8 }, 
           flexGrow: 1, 
         }}
       >
@@ -59,14 +57,12 @@ export default function LoginPage({ onRegisterClick }: LoginProps) {
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
-            // ESTILOS CHAVE CONTRA O SCROLL:
-            maxHeight: "100%", // Garante que não exceda a altura do Box pai (lado esquerdo)
-            overflowY: "auto", // Permite rolagem INTERNA se o conteúdo for muito alto
-            // Mantenha o conteúdo alinhado à esquerda dentro da janela de scroll
+            maxHeight: "100%", 
+            overflowY: "auto", 
             pr: 2, 
           }}
         >
-          {/* SEU CONTEÚDO (LOGOTIPO, TEXTOS, FORMULÁRIO) */}
+          {/* LOGOTIPO, TEXTOS, FORMULÁRIO */}
           <img
             src={LogoRoxa}
             alt="ZenUp Logo"

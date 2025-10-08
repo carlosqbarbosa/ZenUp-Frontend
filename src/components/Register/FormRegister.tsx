@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import {
   Box,
   FormControl,
@@ -15,8 +15,9 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import colors from "../../styles/colors";
 
 const FormRegister = () => {
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+  // MUDANÇA: Usando destructuring de useState para importação limpa
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowConfirmPassword = () =>
@@ -33,17 +34,16 @@ const FormRegister = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
+        alignItems: "flex-start", // Alinha os itens à esquerda
         gap: 2,
-        width: "100%",
-        maxWidth: "400px",
+        width: "100%", // Ocupa a largura total do contêiner pai (max-width do RegisterPage)
       }}
     >
       {/* Nome completo */}
       <TextField
         fullWidth
         label="Nome completo"
-        placeholder="admin@gmail.com"
+        placeholder="Seu nome completo"
         InputProps={{
           sx: {
             borderRadius: "10px",
@@ -56,14 +56,14 @@ const FormRegister = () => {
         sx={{
           display: "flex",
           gap: 1.5,
-          width: "100%",
+          width: "100%", 
         }}
       >
         <TextField
           label="Email"
           placeholder="adminexemplo"
           sx={{
-            flex: 1,
+            flex: 1, 
             "& .MuiOutlinedInput-root": { borderRadius: "10px" },
           }}
         />
@@ -71,7 +71,7 @@ const FormRegister = () => {
           label="Domínio"
           placeholder="@exemplo.com"
           sx={{
-            width: "40%",
+            width: "40%", 
             "& .MuiOutlinedInput-root": { borderRadius: "10px" },
           }}
         />
@@ -130,7 +130,7 @@ const FormRegister = () => {
           alignItems: "center",
           justifyContent: "flex-start",
           gap: 1,
-          width: "100%",
+          width: "100%", 
           mt: 0.5,
         }}
       >
