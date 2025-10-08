@@ -11,10 +11,8 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
-// Assumindo que colors está no caminho correto
 import colors from "../../styles/colors"; 
 
-// Adicionamos as props para login e register
 interface FormLoginProps {
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   onRegisterClick?: () => void;
@@ -32,17 +30,17 @@ const FormLogin = ({ onSubmit, onRegisterClick }: FormLoginProps) => {
   return (
     <Box
       sx={{
-        width: "100%", // Ocupa a largura total disponível no pai
-        maxWidth: "450px", // Limite de largura para desktop
+        width: "100%",
+        maxWidth: "450px", 
         display: "flex",
         flexDirection: "column",
         gap: 2,
-        mt: 2, // Espaço em relação ao título "Faça o login..."
+        mt: 2,
       }}
     >
       <Box
         component="form"
-        onSubmit={onSubmit} // Usa o onSubmit passado como prop
+        onSubmit={onSubmit}
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -51,12 +49,23 @@ const FormLogin = ({ onSubmit, onRegisterClick }: FormLoginProps) => {
         noValidate
         autoComplete="off"
       >
-        <TextField label="Email" type="email" variant="outlined" />
+        {/* CORREÇÃO: Aplica borderRadius no OutlinedInput interno do TextField */}
+        <TextField 
+            label="Email" 
+            type="email" 
+            variant="outlined" 
+            sx={{ 
+                '& .MuiOutlinedInput-root': {
+                    borderRadius: '12px', 
+                }
+            }}
+        />
 
         <FormControl variant="outlined">
           <InputLabel>Senha</InputLabel>
           <OutlinedInput
             type={showPassword ? "text" : "password"}
+            sx={{ borderRadius: '12px' }} 
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
@@ -111,7 +120,7 @@ const FormLogin = ({ onSubmit, onRegisterClick }: FormLoginProps) => {
           textAlign: "center",
           mt: 2,
           color: colors.textGray,
-          pb: { xs: 2, md: 0 }, // Para garantir espaço em telas pequenas
+          pb: { xs: 2, md: 0 },
         }}
       >
         Ainda não possui conta?{" "}
