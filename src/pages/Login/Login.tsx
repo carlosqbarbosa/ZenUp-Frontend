@@ -20,7 +20,6 @@ export default function LoginPage({ onRegisterClick }: LoginProps) {
 
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Lógica de login
      navigate("/dashboard");
   };
 

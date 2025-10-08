@@ -4,22 +4,21 @@ import colors from "../../styles/colors";
 import CadastroImg from "../../assets/CadastroImg.png";
 import LogoRoxa from "../../assets/LogoRoxa.png";
 import FormRegister from "../../components/Register/FormRegister";
-import * as React from "react"; // Necessário para o React.FormEvent
+import * as React from "react"; 
 
 interface RegisterProps {
   onBackToLogin?: () => void;
 }
 
 export default function RegisterPage({ onBackToLogin }: RegisterProps) {
-  const navigate = useNavigate(); // Declaração do navigate
+  const navigate = useNavigate(); 
 
   const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // Impede o recarregamento da página
+    e.preventDefault(); 
     console.log("Tentativa de Cadastro...");
     
-    // >>> AÇÃO DE NAVEGAÇÃO ADICIONADA AQUI <<<
     navigate("/dashboard"); 
-  }; // <<< Fim da função handleRegister
+  }; 
 
   return (
     <Box
@@ -115,10 +114,9 @@ export default function RegisterPage({ onBackToLogin }: RegisterProps) {
             Faça seu cadastro e faça parte da família ZenUp.
           </Typography>
 
-          {/* MUDANÇA CRÍTICA: Envolver o formulário e o botão em um componente <form> */}
           <Box 
             component="form" 
-            onSubmit={handleRegister} // Chama a função que navega
+            onSubmit={handleRegister} 
             sx={{ 
                 width: '100%', 
                 display: 'flex', 
@@ -131,7 +129,7 @@ export default function RegisterPage({ onBackToLogin }: RegisterProps) {
             <Button
               variant="contained"
               fullWidth 
-              type="submit" // CRÍTICO: Dispara o onSubmit do formulário
+              type="submit"
               sx={{
                 backgroundColor: colors.primary,
                 borderRadius: "12px",
@@ -146,7 +144,6 @@ export default function RegisterPage({ onBackToLogin }: RegisterProps) {
               Entrar
             </Button>
           </Box>
-          {/* Fim do componente <form> */}
 
           <Typography
             variant="body2"

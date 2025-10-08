@@ -15,7 +15,6 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import colors from "../../styles/colors";
 
 const FormRegister = () => {
-  // MUDANÇA: Usando destructuring de useState para importação limpa
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -34,9 +33,9 @@ const FormRegister = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        alignItems: "flex-start", // Alinha os itens à esquerda
+        alignItems: "flex-start", 
         gap: 2,
-        width: "100%", // Ocupa a largura total do contêiner pai (max-width do RegisterPage)
+        width: "100%",
       }}
     >
       {/* Nome completo */}
