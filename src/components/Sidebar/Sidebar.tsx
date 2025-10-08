@@ -45,22 +45,15 @@ export default function Sidebar() {
         position: 'relative', 
       }}
     >
-<<<<<<< HEAD
+      {/* 1. Logo */}
       <img 
         src={Logo} 
         alt="ZenUp Logo" 
         style={{ 
-          height: 50, 
-          marginBottom: 30 
-          }} 
+            height: 60,
+            marginBottom: 40, 
+        }} 
       />
-      <List sx={{ width: "100%" }}>
-        {menuItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton>
-=======
-      {/* 1. Logo */}
-      <img src={Logo} alt="ZenUp Logo" style={{ height: 60, marginBottom: 40 }} />
 
       {/* 2. Menu Principal */}
       <List sx={{ width: "100%", padding: 0 }}>
@@ -80,7 +73,6 @@ export default function Sidebar() {
               <ListItemIcon sx={{ minWidth: 40, color: isActive(item.path) ? colors.primary : colors.textGray }}>
                 <item.Icon />
               </ListItemIcon>
->>>>>>> 1625536d790275bda7d657e455272677e970ccab
               <ListItemText
                 primary={
                   <Typography
