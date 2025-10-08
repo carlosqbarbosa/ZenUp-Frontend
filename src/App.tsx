@@ -1,4 +1,3 @@
-// App.tsx
 import { BrowserRouter, Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import LoginPage from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
@@ -6,6 +5,23 @@ import DashboardPage from "./pages/Dashboard/Dashboard";
 import Perfil from "./pages/Profile/Profile";
 import Faq from "./pages/FAQ/FAQ";
 import Logout from "./pages/Logout/Logout";
+
+
+function LoginWithNavigate() {
+  const navigate = useNavigate();
+
+  return (
+    <LoginPage
+      onRegisterClick={() => navigate("/register")}
+    />
+  );
+}
+
+// Wrapper com navegação para o Register
+function RegisterWithNavigate() {
+  const navigate = useNavigate();
+  return <Register onBackToLogin={() => navigate("/")} />;
+}
 
 function App() {
   return (
@@ -15,7 +31,7 @@ function App() {
         <Route path="/login" element={<Navigate to="/" />} />
 
         {/* Login (tela inicial) */}
-        <Route path="/" element={<LoginPage onRegisterClick={() => {}} />} />
+        <Route path="/" element={<LoginWithNavigate />} />
 
         {/* Register com navegação */}
         <Route path="/register" element={<RegisterWithNavigate />} />
@@ -32,13 +48,4 @@ function App() {
     </BrowserRouter>
   );
 }
-
-// Wrapper com navegação para o Register - teste
-function RegisterWithNavigate() {
-  const navigate = useNavigate();
-  return <Register onBackToLogin={() => navigate("/")} />;
-}
-
 export default App;
-
-
