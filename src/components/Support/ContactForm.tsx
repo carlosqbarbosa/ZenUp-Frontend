@@ -1,9 +1,8 @@
 import { 
     Box, TextField, Button, Typography, Select, MenuItem, 
     FormControl, Snackbar, Alert
-} from "@mui/material"; // Adicionamos Snackbar e Alert
-import React, { useState } from 'react'; // Importamos useState
-// Substitua pelo caminho correto do seu objeto de cores
+} from "@mui/material"; 
+import React, { useState } from 'react'; 
 import colors from "../../styles/colors"; 
 
 const categories = [
@@ -14,19 +13,13 @@ const categories = [
 ];
 
 const ContactForm = () => {
-    // Estado para controlar a exibição da Snackbar (notificação)
     const [openSnackbar, setOpenSnackbar] = useState(false);
 
-    // Handler para simular o envio do formulário
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // Aqui você faria a chamada à API (axios.post('/api/suporte', dados)).
-        
-        // Se a chamada à API for bem-sucedida, mostramos a Snackbar
         setOpenSnackbar(true);
 
-        // Opcional: Limpar o formulário aqui após o envio
-        // setFormData(initialFormData); 
+ 
     };
 
     // Handler para fechar a Snackbar
@@ -70,8 +63,8 @@ const ContactForm = () => {
 
             {/* 2. Formulário de Suporte */}
             <Box 
-                component="form" // Adiciona o componente form para usar o onSubmit
-                onSubmit={handleSubmit} // Chama a função handleSubmit ao enviar
+                component="form" 
+                onSubmit={handleSubmit} 
                 sx={{ 
                     p: 3,
                     backgroundColor: '#fff', 
@@ -84,8 +77,6 @@ const ContactForm = () => {
                     Precisa de ajuda? Fale com o suporte
                 </Typography>
                 
-                {/* Campos (Assunto, Categoria, Descrição) - Mantidos */}
-                {/* ... */}
                 
                 <Typography variant="body2" color="text.secondary" sx={{ mt: 2, mb: 0.5 }}>
                     Assunto
@@ -95,7 +86,7 @@ const ContactForm = () => {
                     placeholder="Ex: Problema no login" 
                     sx={{ mb: 2 }} 
                     size="small"
-                    required // Garante que o campo será preenchido
+                    required 
                 />
                 
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
@@ -123,7 +114,7 @@ const ContactForm = () => {
                 />
 
                 <Button 
-                    type="submit" // Define como botão de submissão do formulário
+                    type="submit" 
                     variant="contained" 
                     sx={{ 
                         backgroundColor: colors.secondary, 
@@ -141,16 +132,15 @@ const ContactForm = () => {
             {/* 3. SNACKBAR DE SUCESSO */}
             <Snackbar
                 open={openSnackbar}
-                autoHideDuration={6000} // Tempo que a mensagem fica na tela (6 segundos)
+                autoHideDuration={6000} 
                 onClose={handleClose}
-                // Posição: Topo e Direita, como no Figma
                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
             >
                 <Alert
                     onClose={handleClose}
-                    severity="success" // Cor verde de sucesso
-                    variant="filled" // Fundo preenchido para melhor visibilidade
-                    sx={{ width: '100%', bgcolor: colors.greenSuccess }} // Ajuste de cor opcional
+                    severity="success" 
+                    variant="filled" 
+                    sx={{ width: '100%', bgcolor: colors.greenSuccess }} 
                 >
                     Mensagem para o suporte enviada com sucesso
                 </Alert>

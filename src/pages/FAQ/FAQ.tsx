@@ -6,7 +6,6 @@ import ContactForm from "../../components/Support/ContactForm";
 export default function Suporte() {
     return (
         <Layout title="Central de Ajuda">
-            {/* Header da Página */}
             <Typography variant="h4" sx={{ fontWeight: 700, mb: 4 }}>
                 Central de Ajuda
             </Typography>
@@ -17,8 +16,8 @@ export default function Suporte() {
                     display: "flex", 
                     gap: 4, 
                     width: '100%', 
-                    maxWidth: 1200, // Limita a largura como no perfil
-                    flexDirection: { xs: 'column', md: 'row' } // Colunas em telas grandes
+                    maxWidth: 1200, 
+                    flexDirection: { xs: 'column', md: 'row' } 
                 }}
             >
                 {/* Coluna Esquerda: Perguntas Frequentes */}
