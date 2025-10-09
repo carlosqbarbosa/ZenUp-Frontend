@@ -2,215 +2,135 @@ import * as React from "react";
 import {
   Box,
   Typography,
-  TextField,
-  Button,
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  InputAdornment,
-  IconButton,
 } from "@mui/material";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
+
+import FormLogin from "../../components/Login/FormLogin"; 
 import { useNavigate } from "react-router-dom";
 import colors from "../../styles/colors";
 import LogoRoxa from "../../assets/LogoRoxa.png";
 import LoginImg from "../../assets/LoginImg.png";
+
 
 interface LoginProps {
   onRegisterClick?: () => void;
 }
 
 export default function LoginPage({ onRegisterClick }: LoginProps) {
-  const [showPassword, setShowPassword] = React.useState(false);
   const navigate = useNavigate();
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => event.preventDefault();
-
-  const handleLogin = () => {
-    // Aqui futuramente você pode validar o login (API, etc.)
-    navigate("/dashboard");
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+     navigate("/dashboard");
   };
 
   return (
-  <Box
-    sx={{
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "stretch",
-      height: "100dvh",
-      width: "100%",
-      overflow: "hidden",
-      backgroundColor: "#fff",
-      margin: 0,
-    }}
-  >
-    {/* --- Lado esquerdo: texto + formulário --- */}
+    // CONTÊINER PRINCIPAL
     <Box
       sx={{
-        width: { xs: "100%", md: "50%" },
         display: "flex",
-        flexDirection: "column",
-        alignItems: "flex-start",
-        justifyContent: "center",
-        marginLeft: { md: "60px" },
-        px: { xs: 4, md: 8 },
+        justifyContent: "space-between",
+        alignItems: "stretch",
+        height: "100dvh", 
+        width: "100%", 
+        overflow: "hidden", 
+        backgroundColor: "#fff",
       }}
     >
-      <img
-        src={LogoRoxa}
-        alt="ZenUp Logo"
-        style={{
-          height: "70px",
-          marginBottom: "25px",
-        }}
-      />
-
-      <Typography
-        variant="h4"
-        sx={{
-          fontWeight: 700,
-          color: colors.primary,
-          mb: 1,
-        }}
-      >
-        Bem-vindo!
-      </Typography>
-
-      <Typography
-        sx={{
-          color: colors.textGray,
-          mb: 5,
-          maxWidth: "400px",
-          lineHeight: 1.5,
-        }}
-      >
-        Elevando a cultura de bem-estar da sua empresa, com dados que inspiram
-        cuidado e uma equipe que floresce.
-      </Typography>
-
-      <Typography
-        sx={{
-          fontWeight: 600,
-          mb: 1,
-          color: colors.textGray,
-        }}
-      >
-        Faça o login da sua conta
-      </Typography>
-
+      {/* --- Lado esquerdo: texto + formulário --- */}
       <Box
-        component="form"
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleLogin();
-        }}
         sx={{
+          width: { xs: "100%", md: "50%" },
           display: "flex",
           flexDirection: "column",
-          width: "100%",
-          maxWidth: "450px",
-          gap: 2,
+          alignItems: "center", 
+          justifyContent: "center",
+          
+          px: { xs: 4, md: 8 },
+          py: { xs: 4, md: 8 }, 
+          flexGrow: 1, 
         }}
       >
-        <TextField label="Email" type="email" variant="outlined" />
-
-        <FormControl variant="outlined">
-          <InputLabel>Senha</InputLabel>
-          <OutlinedInput
-            type={showPassword ? "text" : "password"}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-            label="Senha"
+        {/* Contêiner INTERNO para o Conteúdo: Gerencia a Altura e o Scroll */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            maxHeight: "100%", 
+            overflowY: "auto", 
+            pr: 2, 
+          }}
+        >
+          {/* LOGOTIPO, TEXTOS, FORMULÁRIO */}
+          <img
+            src={LogoRoxa}
+            alt="ZenUp Logo"
+            style={{
+              height: "70px",
+              marginBottom: "25px",
+            }}
           />
-        </FormControl>
 
-        <Typography
-          variant="body2"
-          sx={{
-            textAlign: "right",
-            color: colors.primary,
-            cursor: "pointer",
-            fontSize: "0.9rem",
-            mt: -1,
-          }}
-        >
-          Esqueceu sua senha? Recuperar agora
-        </Typography>
-
-        <Button
-          variant="contained"
-          fullWidth
-          sx={{
-            backgroundColor: colors.primary,
-            borderRadius: "12px",
-            height: 48,
-            textTransform: "none",
-            fontWeight: 600,
-            mt: 1,
-            boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.1)",
-            "&:hover": { backgroundColor: "#1d0879" },
-          }}
-          type="submit"
-        >
-          Entrar
-        </Button>
-
-        <Typography
-          variant="body2"
-          sx={{
-            textAlign: "center",
-            mt: 2,
-            color: colors.textGray,
-          }}
-        >
-          Ainda não possui conta?{" "}
-          <span
-            style={{ color: colors.secondary, cursor: "pointer" }}
-            onClick={onRegisterClick}
+          <Typography
+            variant="h4"
+            sx={{
+              fontWeight: 700,
+              color: colors.primary,
+              mb: 1,
+            }}
           >
-            Cadastre-se
-          </span>
-        </Typography>
+            Bem-vindo!
+          </Typography>
+
+          <Typography
+            sx={{
+              color: colors.textGray,
+              mb: { xs: 3, md: 5 },
+              maxWidth: "400px",
+              lineHeight: 1.5,
+            }}
+          >
+            Elevando a cultura de bem-estar da sua empresa, com dados que inspiram
+            cuidado e uma equipe que floresce.
+          </Typography>
+
+          <Typography
+            sx={{
+              fontWeight: 600,
+              mb: 1,
+              color: colors.textGray,
+            }}
+          >
+            Faça o login da sua conta
+          </Typography>
+
+          {/* Chamada ao FormLogin */}
+          <FormLogin onSubmit={handleLogin} onRegisterClick={onRegisterClick} />
+        </Box>
+      </Box>
+
+      {/* --- Lado direito: imagem --- */}
+      <Box
+        sx={{
+          display: { xs: "none", md: "flex" },
+          width: "50%", 
+          height: "100%",
+          overflow: "hidden",
+          borderRadius: "40px 0px 0px 40px",
+        }}
+      >
+        <Box
+          component="img"
+          src={LoginImg}
+          alt="Equipe unida"
+          sx={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            borderRadius: "inherit",
+          }}
+        />
       </Box>
     </Box>
-
-    {/* --- Lado direito: imagem --- */}
-    <Box
-      sx={{
-        display: { xs: "none", md: "flex" },
-        width: "40%",
-        height: "100%",
-        overflow: "hidden",
-        borderRadius: "40px 40px 35px 50px",
-        marginRight: "40px",
-      }}
-    >
-      <Box
-        component="img"
-        src={LoginImg}
-        alt="Equipe unida"
-        sx={{
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          borderRadius: "inherit",
-        }}
-      />
-    </Box>
-  </Box>
-);
+  );
 }

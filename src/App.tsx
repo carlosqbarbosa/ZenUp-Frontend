@@ -7,6 +7,7 @@ import Faq from "./pages/FAQ/FAQ";
 import Logout from "./pages/Logout/Logout";
 
 
+
 function LoginWithNavigate() {
   const navigate = useNavigate();
 
