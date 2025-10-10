@@ -81,7 +81,7 @@ const FormLogin = ({ onSubmit, onRegisterClick }: FormLoginProps) => {
             label="Senha"
           />
         </FormControl>
-
+        {/* 
         <Typography
           variant="body2"
           sx={{
@@ -93,7 +93,7 @@ const FormLogin = ({ onSubmit, onRegisterClick }: FormLoginProps) => {
           }}
         >
           Esqueceu sua senha? Recuperar agora
-        </Typography>
+        </Typography>*/}
 
         <Button
           variant="contained"
