@@ -93,12 +93,18 @@ const ContactForm = () => {
                     Categoria
                 </Typography>
                 <FormControl fullWidth size="small" sx={{ mb: 2 }}>
-                    <Select defaultValue="" required>
-                        <MenuItem value="" disabled>Selecione uma categoria</MenuItem>
+                    <Select defaultValue="" required displayEmpty>
+                        <MenuItem value="">
+                            <em style={{ color: "rgba(0, 0, 0, 0.5)", fontStyle: "normal" }}>
+                            Selecione uma categoria
+                            </em>
+                        </MenuItem>
                         {categories.map((cat) => (
-                            <MenuItem key={cat} value={cat}>{cat}</MenuItem>
+                            <MenuItem key={cat} value={cat}>
+                            {cat}
+                            </MenuItem>
                         ))}
-                    </Select>
+                        </Select>
                 </FormControl>
                 
                 <Typography variant="body2" sx={{ mb: 0.5, color: colors.primary }}>

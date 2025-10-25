@@ -7,10 +7,9 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import DescriptionIcon from "@mui/icons-material/Description"; 
 import colors from "../../styles/colors";
 import Logo from "../../assets/LogoRoxa.png"; 
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import LogoutModal from '../Modals/LogoutModal'; 
 
-// Estrutura de links para fácil manutenção
 const primaryMenu = [
   { name: "Dashboard", path: "/dashboard", Icon: DashboardIcon },
   { name: "Perfil", path: "/profile", Icon: PersonIcon },
@@ -21,12 +20,9 @@ const secondaryMenu = [
   { name: "Sair", path: "/logout", Icon: LogoutIcon }, 
 ];
 
-// Cor de fundo para o item ativo
 const activeBgColor = 'rgba(67, 53, 167, 0.1)';
 const reportsCardPath = "/reports";
 
-// -------------------------------------------------------------
-// Componente Sidebar
 export default function Sidebar() {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const location = useLocation(); 
@@ -93,6 +89,7 @@ export default function Sidebar() {
       
       {/* 3. Card de Relatórios */}
       <Box
+        onClick={() => navigate("/reports")}
         sx={{
           width: "100%",
           mt: 3,
@@ -179,7 +176,6 @@ export default function Sidebar() {
                 <ListItemIcon 
                     sx={{ 
                         minWidth: 40, 
-                        // CORREÇÃO: Usa colors.textGray para manter a cor neutra do design.
                         color: colors.textGray 
                     }}
                 >
@@ -190,7 +186,6 @@ export default function Sidebar() {
                     <Typography 
                         sx={{ 
                             fontWeight: 500, 
-                            // CORREÇÃO: Usa colors.textGray para manter a cor neutra do design.
                             color: colors.textGray 
                         }}
                     >

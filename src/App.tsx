@@ -4,6 +4,7 @@ import Register from "./pages/Register/Register";
 import DashboardPage from "./pages/Dashboard/Dashboard";
 import Perfil from "./pages/Profile/Profile";
 import Faq from "./pages/FAQ/FAQ";
+import ReportsPage from "./pages/Reports/Reports";
 //import Logout from "./pages/Logout/Logout";
 
 
@@ -43,6 +44,9 @@ function App() {
         <Route path="/profile" element={<Perfil />} />
         <Route path="/faq" element={<Faq />} />
         {/*<Route path="/logout" element={<Logout />} /> */}
+
+        {/*Para baixar relatórios*/}
+        <Route path="/reports" element={<ReportsPage />} />
 
         {/* Página 404 */}
         <Route path="*" element={<h1>404 - Página não encontrada</h1>} />
