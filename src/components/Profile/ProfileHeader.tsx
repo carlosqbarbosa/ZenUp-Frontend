@@ -15,7 +15,7 @@ const ProfileHeader = () => (
         }}
     >
         <Box>
-            <Typography variant="h4" sx={{ fontWeight: 700, color: colors.text }}>
+            <Typography variant="h4" sx={{ fontWeight: 700, color: colors.primary }}>
                 Meu Perfil
             </Typography>
             <Typography color="text.secondary">

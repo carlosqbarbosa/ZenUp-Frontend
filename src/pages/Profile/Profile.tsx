@@ -7,6 +7,7 @@ import type { ProfileData } from "../../types/profile";
 import ProfileForm from "../../components/Profile/ProfileForm"; 
 import ProfileHeader from "../../components/Profile/ProfileHeader";
 import ProfileAvatarCard from "../../components/Profile/ProfileAvatarCard"; 
+import colors from "../../styles/colors";
 
 const initialProfileData: ProfileData = {
     nomeCompleto: "Felipe Gusmão Pereira",
@@ -40,7 +41,7 @@ export default function Perfil() {
 
     return (
         <Layout title="Meu Perfil">
-            <Box sx={{ p: 0, width: "100%", maxWidth: 1200 }}>
+            <Box sx={{ p: 0, width: "100%", maxWidth: 1200, color: colors.primary  }}>
                 
                 <ProfileHeader />
 
@@ -65,10 +66,6 @@ export default function Perfil() {
                         />
                     </Grid>
                     
-                    {/* COLUNA DIREITA: AVATAR */}
-                    <Grid item xs={12} md={5}>
-                        <ProfileAvatarCard fullName={profileData.nomeCompleto} />
-                    </Grid>
                 </Grid>
             </Box>
         </Layout>
