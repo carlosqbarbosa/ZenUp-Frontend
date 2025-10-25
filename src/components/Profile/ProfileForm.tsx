@@ -206,6 +206,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
                             borderRadius: "12px",
                             textTransform: "none",
                             fontWeight: 600,
+                            background: colors.secondary,
                         }}
                     >
                         Salvar alterações
