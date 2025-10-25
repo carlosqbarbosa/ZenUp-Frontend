@@ -6,7 +6,6 @@ import React from "react";
 import type { ProfileData } from "../../types/profile";
 import ProfileForm from "../../components/Profile/ProfileForm"; 
 import ProfileHeader from "../../components/Profile/ProfileHeader";
-import ProfileAvatarCard from "../../components/Profile/ProfileAvatarCard"; 
 import colors from "../../styles/colors";
 
 const initialProfileData: ProfileData = {

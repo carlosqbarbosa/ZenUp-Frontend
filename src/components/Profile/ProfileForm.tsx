@@ -1,9 +1,7 @@
-// ProfileForm.tsx
 import React from "react";
 import { Box, TextField, Button, Typography, Grid, Avatar } from "@mui/material";
-import colors from "../../styles/colors"; // mantenha seu arquivo de cores
+import colors from "../../styles/colors"; 
 
-// Tipos mínimos usados no componente — adapte conforme seu types/profile se já existir
 export type ProfileData = {
   nomeCompleto: string;
   telefone: string;
@@ -72,7 +70,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
   onEditStart,
   onChange,
 }) => {
-  // separa primeiro e segundo nome (segurança se tiver só 1 palavra)
   const nameParts = profileData.nomeCompleto?.split(" ") || [];
   const firstName = nameParts[0] || "";
   const secondName = nameParts[1] || "";
@@ -90,10 +87,8 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.05)",
         display: "flex",
         gap: { xs: 3, md: 6 },
-        // layout responsivo: coluna em xs, linha em md+
         flexDirection: { xs: "column", md: "row" },
         alignItems: "flex-start",
-        // evitar overflow horizontal e scroll lateral
         maxWidth: "100%",
         overflowX: "hidden",
       }}
@@ -200,7 +195,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          // garantir largura mínima em desktop, e largura 100% em mobile
           minWidth: { md: "220px" },
           width: { xs: "100%", md: "220px" },
           mt: { xs: 1, md: 5 },
@@ -231,7 +225,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
           {firstName} {secondName}
         </Typography>
 
-        {/* Botões: em desktop ficam na coluna; em mobile ocupam largura total */}
         {!isEditing ? (
           <Button
             variant="outlined"
