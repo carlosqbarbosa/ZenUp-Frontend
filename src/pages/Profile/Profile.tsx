@@ -41,7 +41,7 @@ export default function Perfil() {
 
     return (
         <Layout title="Meu Perfil">
-            <Box sx={{ p: 0, width: "100%", maxWidth: 1200, color: colors.primary }}>
+            <Box sx={{ p: 0, width: "100%", maxWidth: 1200, color: colors.primary  }}>
                 
                 <ProfileHeader />
 
@@ -66,10 +66,6 @@ export default function Perfil() {
                         />
                     </Grid>
                     
-                    {/* COLUNA DIREITA: AVATAR */}
-                    <Grid item xs={12} md={5}>
-                        <ProfileAvatarCard fullName={profileData.nomeCompleto} />
-                    </Grid>
                 </Grid>
             </Box>
         </Layout>
