@@ -2,48 +2,37 @@ import * as React from "react";
 import {
   Box,
   Typography,
-  TextField,
-  Button,
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  InputAdornment,
-  IconButton,
 } from "@mui/material";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
+
+import FormLogin from "../../components/Login/FormLogin"; 
 import { useNavigate } from "react-router-dom";
 import colors from "../../styles/colors";
-import LoginImg from "../../assets/LoginImg.png";
 import LogoRoxa from "../../assets/LogoRoxa.png";
+import LoginImg from "../../assets/LoginImg.png";
+
 
 interface LoginProps {
   onRegisterClick?: () => void;
 }
 
 export default function LoginPage({ onRegisterClick }: LoginProps) {
-  const [showPassword, setShowPassword] = React.useState(false);
-  const navigate = useNavigate(); // 👈 Hook para navegar entre páginas
+  const navigate = useNavigate();
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) =>
-    event.preventDefault();
-
-  // 🔹 Função chamada ao clicar em "Entrar"
-  const handleLogin = () => {
-    // Aqui futuramente você pode validar o login (API, etc.)
-    navigate("/dashboard"); // Redireciona para a página Dashboard
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+     navigate("/dashboard");
   };
 
   return (
+    // CONTÊINER PRINCIPAL
     <Box
       sx={{
         display: "flex",
         justifyContent: "space-between",
-        alignItems: "center",
-        height: "100vh",
-        width: "100%",
-        overflow: "hidden",
+        alignItems: "stretch",
+        height: "100dvh", 
+        width: "100%", 
+        overflow: "hidden", 
         backgroundColor: "#fff",
       }}
     >
@@ -53,137 +42,70 @@ export default function LoginPage({ onRegisterClick }: LoginProps) {
           width: { xs: "100%", md: "50%" },
           display: "flex",
           flexDirection: "column",
-          alignItems: "flex-start",
+          alignItems: "center", 
           justifyContent: "center",
-          marginLeft: "60px",
+          
           px: { xs: 4, md: 8 },
+          py: { xs: 4, md: 8 }, 
+          flexGrow: 1, 
         }}
       >
-        <img
-          src={LogoRoxa}
-          alt="ZenUp Logo"
-          style={{
-            height: "70px",
-            marginBottom: "25px",
-          }}
-        />
-
-        <Typography
-          variant="h4"
-          sx={{
-            fontWeight: 700,
-            color: colors.primary,
-            mb: 1,
-          }}
-        >
-          Bem-vindo!
-        </Typography>
-
-        <Typography
-          sx={{
-            color: colors.textGray,
-            mb: 5,
-            maxWidth: "400px",
-            lineHeight: 1.5,
-          }}
-        >
-          Elevando a cultura de bem-estar da sua empresa, com dados que inspiram
-          cuidado e uma equipe que floresce.
-        </Typography>
-
-        <Typography
-          sx={{
-            fontWeight: 600,
-            mb: 1,
-            color: colors.textGray,
-          }}
-        >
-          Faça o login da sua conta
-        </Typography>
-
+        {/* Contêiner INTERNO para o Conteúdo: Gerencia a Altura e o Scroll */}
         <Box
-          component="form"
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleLogin();
-          }}
           sx={{
             display: "flex",
             flexDirection: "column",
-            width: "100%",
-            maxWidth: "450px",
-            gap: 2,
+            alignItems: "flex-start",
+            maxHeight: "100%", 
+            overflowY: "auto", 
+            pr: 2, 
           }}
         >
-          <TextField label="Email" type="email" variant="outlined" />
-
-          <FormControl variant="outlined">
-            <InputLabel>Senha</InputLabel>
-            <OutlinedInput
-              type={showPassword ? "text" : "password"}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Senha"
-            />
-          </FormControl>
+          {/* LOGOTIPO, TEXTOS, FORMULÁRIO */}
+          <img
+            src={LogoRoxa}
+            alt="ZenUp Logo"
+            style={{
+              height: "70px",
+              marginBottom: "25px",
+            }}
+          />
 
           <Typography
-            variant="body2"
+            variant="h4"
             sx={{
-              textAlign: "right",
+              fontWeight: 700,
               color: colors.primary,
-              cursor: "pointer",
-              fontSize: "0.9rem",
-              mt: -1,
+              mb: 1,
             }}
           >
-            Esqueceu sua senha? Recuperar agora
+            Bem-vindo!
           </Typography>
 
-          <Button
-            variant="contained"
-            fullWidth
+          <Typography
             sx={{
-              backgroundColor: colors.primary,
-              borderRadius: "12px",
-              height: 48,
-              textTransform: "none",
-              fontWeight: 600,
-              mt: 1,
-              boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.1)",
-              "&:hover": { backgroundColor: "#1d0879" },
+              color: colors.textGray,
+              mb: { xs: 3, md: 5 },
+              maxWidth: "400px",
+              lineHeight: 1.5,
             }}
-            type="submit"
           >
-            Entrar
-          </Button>
+            Elevando a cultura de bem-estar da sua empresa, com dados que inspiram
+            cuidado e uma equipe que floresce.
+          </Typography>
 
           <Typography
-            variant="body2"
             sx={{
-              textAlign: "center",
-              mt: 2,
+              fontWeight: 600,
+              mb: 1,
               color: colors.textGray,
             }}
           >
-            Ainda não possui conta?{" "}
-            <span
-              style={{ color: colors.secondary, cursor: "pointer" }}
-              onClick={onRegisterClick}
-            >
-              Cadastre-se
-            </span>
+            Faça o login da sua conta
           </Typography>
+
+          {/* Chamada ao FormLogin */}
+          <FormLogin onSubmit={handleLogin} onRegisterClick={onRegisterClick} />
         </Box>
       </Box>
 
@@ -191,21 +113,21 @@ export default function LoginPage({ onRegisterClick }: LoginProps) {
       <Box
         sx={{
           display: { xs: "none", md: "flex" },
-          width: "50%",
+          width: "50%", 
           height: "100%",
-          justifyContent: "center",
-          alignItems: "center",
           overflow: "hidden",
+          borderRadius: "40px 0px 0px 40px",
         }}
       >
-        <img
+        <Box
+          component="img"
           src={LoginImg}
           alt="Equipe unida"
-          style={{
-            width: "95%",
-            height: "95%",
+          sx={{
+            width: "100%",
+            height: "100%",
             objectFit: "cover",
-            borderRadius: "35px 35px 25px 35px",
+            borderRadius: "inherit",
           }}
         />
       </Box>
