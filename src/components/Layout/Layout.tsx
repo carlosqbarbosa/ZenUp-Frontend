@@ -9,7 +9,13 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <Box sx={{ display: "flex", height: "100vh", backgroundColor: "#f9f9fb" }}>
+    <Box 
+      sx={{ 
+        display: "flex", 
+        height: "100vh", 
+        backgroundColor: "#f9f9fb" 
+      }}
+      >
       <Sidebar />
       <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
         <Box sx={{ padding: 4, overflowY: "auto" }}>{children}</Box>
