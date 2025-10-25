@@ -78,7 +78,7 @@ const ContactForm = () => {
                 </Typography>
                 
                 
-                <Typography variant="body2" color="text.secondary" sx={{ mt: 2, mb: 0.5 }}>
+                <Typography variant="body2" sx={{ mt: 2, mb: 0.5, color: colors.primary }}>
                     Assunto
                 </Typography>
                 <TextField 
@@ -89,7 +89,7 @@ const ContactForm = () => {
                     required 
                 />
                 
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
+                <Typography variant="body2" sx={{ mb: 0.5, color: colors.primary }}>
                     Categoria
                 </Typography>
                 <FormControl fullWidth size="small" sx={{ mb: 2 }}>
@@ -101,7 +101,7 @@ const ContactForm = () => {
                     </Select>
                 </FormControl>
                 
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
+                <Typography variant="body2" sx={{ mb: 0.5, color: colors.primary }}>
                     Descrição
                 </Typography>
                 <TextField 
@@ -116,13 +116,15 @@ const ContactForm = () => {
                 <Button 
                     type="submit" 
                     variant="contained" 
+                    fullWidth
                     sx={{ 
                         backgroundColor: colors.secondary, 
                         '&:hover': { backgroundColor: '#e56417' },
                         py: 1.5,
                         borderRadius: '12px',
                         fontWeight: 600,
-                        textTransform: 'none'
+                        textTransform: 'none',
+                        mt: 2
                     }}
                 >
                     Enviar

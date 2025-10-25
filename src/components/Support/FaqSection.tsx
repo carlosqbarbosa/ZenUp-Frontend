@@ -52,7 +52,7 @@ const FaqSection = () => {
         <Box sx={{ flex: 1 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 3, pt: 1 }}>
                 <HelpOutlineIcon sx={{ color: colors.primary, mr: 1, fontSize: 28 }} />
-                <Typography variant="h6" sx={{ fontWeight: 600, color: colors.text }}>
+                <Typography variant="h6" sx={{ fontWeight: 600, color: colors.primary }}>
                     Perguntas Frequentes
                 </Typography>
             </Box>
