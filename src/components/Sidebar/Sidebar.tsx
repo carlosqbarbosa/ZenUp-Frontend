@@ -8,7 +8,8 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import colors from "../../styles/colors";
 import Logo from "../../assets/LogoRoxa.png"; 
 import  { useState } from 'react';
-import LogoutModal from '../Modals/LogoutModal'; 
+import LogoutModal from '../Modals/LogoutModal';
+import { useUser } from "../../context/UserContext"; 
 
 const primaryMenu = [
   { name: "Dashboard", path: "/dashboard", Icon: DashboardIcon },
@@ -26,6 +27,7 @@ const reportsCardPath = "/reports";
 export default function Sidebar() {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const location = useLocation(); 
+  const { nomeCompleto } = useUser(); // pega nome global
   
   const isActive = (path: string) => location.pathname === path;
 
@@ -215,11 +217,13 @@ export default function Sidebar() {
               mr: 3, 
               borderRadius: '12px'
             }} 
-            src="https://i.pravatar.cc/150?u=FelipeGusmao" 
+            src={`https://i.pravatar.cc/150?u=${nomeCompleto}`} 
           />
           <Box>
             <Typography variant="body2" sx={{ color: colors.textGray }}>Bem vindo de volta!</Typography>
-            <Typography sx={{ fontWeight: 600, color: colors.primary }}>Felipe Gusmão</Typography>
+            <Typography sx={{ fontWeight: 600, color: colors.primary }}>
+              {nomeCompleto || "Usuário"}
+            </Typography>
           </Box>
       </Box>
 

@@ -5,7 +5,7 @@ import DashboardPage from "./pages/Dashboard/Dashboard";
 import Perfil from "./pages/Profile/Profile";
 import Faq from "./pages/FAQ/FAQ";
 import ReportsPage from "./pages/Reports/Reports";
-//import Logout from "./pages/Logout/Logout";
+import { UserProvider } from "./context/UserContext";
 
 
 
@@ -28,7 +28,8 @@ function RegisterWithNavigate() {
 
 function App() {
   return (
-    <BrowserRouter>
+    <UserProvider>
+      <BrowserRouter>
       <Routes>
         {/* Redireciona /login → / */}
         <Route path="/login" element={<Navigate to="/" />} />
@@ -52,6 +53,8 @@ function App() {
         <Route path="*" element={<h1>404 - Página não encontrada</h1>} />
       </Routes>
     </BrowserRouter>
+    </UserProvider>
+    
   );
 }
 

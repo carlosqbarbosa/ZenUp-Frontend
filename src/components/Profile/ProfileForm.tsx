@@ -1,6 +1,16 @@
-import React from "react";
-import { Box, TextField, Button, Typography, Grid, Avatar } from "@mui/material";
-import colors from "../../styles/colors"; 
+import { useState } from "react";
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Grid,
+  Avatar,
+  Snackbar,
+  Alert,
+} from "@mui/material";
+import colors from "../../styles/colors";
+import { useUser } from "../../context/UserContext";
 
 export type ProfileData = {
   nomeCompleto: string;
@@ -17,7 +27,9 @@ export type ProfileFormProps = {
   onSave: (e: React.FormEvent<HTMLFormElement>) => void;
   onCancel: () => void;
   onEditStart: () => void;
-  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
 };
 
 const CustomTextFieldStyle = {
@@ -70,14 +82,35 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
   onEditStart,
   onChange,
 }) => {
-  const nameParts = profileData.nomeCompleto?.split(" ") || [];
-  const firstName = nameParts[0] || "";
-  const secondName = nameParts[1] || "";
+  const { setNomeCompleto } = useUser();
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
+  // Divide o nome completo em primeiro e segundo nome (para exibição no avatar)
+  const [firstName, secondName = ""] = profileData.nomeCompleto.split(" ");
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onSave(e);
+
+    // Atualiza o nome global (reflete na sidebar, por exemplo)
+    setNomeCompleto(profileData.nomeCompleto);
+
+    // Exibe o snackbar de sucesso
+    setOpenSnackbar(true);
+  };
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") return;
+    setOpenSnackbar(false);
+  };
 
   return (
     <Box
       component="form"
-      onSubmit={onSave}
+      onSubmit={handleSubmit}
       sx={{
         width: "100%",
         boxSizing: "border-box",
@@ -93,7 +126,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         overflowX: "hidden",
       }}
     >
-      {/* COLUNA ESQUERDA - CAMPOS */}
+      {/* COLUNA ESQUERDA */}
       <Box sx={{ flex: 1 }}>
         <Typography variant="h6" sx={{ fontWeight: 600, color: colors.primary }}>
           Informações Pessoais
@@ -189,7 +222,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         </Grid>
       </Box>
 
-      {/* COLUNA DIREITA - FOTO, NOME E BOTÕES */}
+      {/* COLUNA DIREITA */}
       <Box
         sx={{
           display: "flex",
@@ -202,7 +235,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         }}
       >
         <Avatar
-          src="https://i.pravatar.cc/300?u=FelipeGusmao"
+          src={`https://i.pravatar.cc/300?u=${profileData.nomeCompleto}`}
           alt={profileData.nomeCompleto}
           sx={{
             width: 160,
@@ -235,7 +268,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
               borderRadius: "12px",
               textTransform: "none",
               fontWeight: 600,
-              width: { xs: "100%", md: "100%" },
+              width: "100%",
             }}
           >
             Editar Perfil
@@ -281,10 +314,26 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
             >
               Cancelar
             </Button>
-
           </Box>
         )}
       </Box>
+
+      {/* SNACKBAR DE SUCESSO */}
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={4000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert
+          onClose={handleClose}
+          severity="success"
+          variant="filled"
+          sx={{ width: "100%", bgcolor: colors.greenSuccess }}
+        >
+          Alterações salvas com sucesso!
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };
