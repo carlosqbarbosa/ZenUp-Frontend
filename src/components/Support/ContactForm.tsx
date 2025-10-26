@@ -124,8 +124,8 @@ const ContactForm = () => {
                     variant="contained" 
                     fullWidth
                     sx={{ 
-                        backgroundColor: colors.secondary, 
-                        '&:hover': { backgroundColor: '#e56417' },
+                        backgroundColor: colors.primary, 
+                        '&:hover': { backgroundColor: colors.primaryDark },
                         py: 1.5,
                         borderRadius: '12px',
                         fontWeight: 600,
