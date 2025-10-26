@@ -34,8 +34,8 @@ export default function Sidebar() {
   return (
     <Box
       sx={{
-        width: 280, 
-        minWidth: 280,
+        width: 220, 
+        minWidth: 220,
         backgroundColor: "#fff",
         display: "flex",
         flexDirection: "column",
@@ -105,6 +105,7 @@ export default function Sidebar() {
           flexDirection: 'column',
           justifyContent: 'center',
           height: '70px',
+          textDecoration: 'none',
         }}
         component={Link}
         to={reportsCardPath}
