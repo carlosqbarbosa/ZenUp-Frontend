@@ -27,7 +27,7 @@ const reportsCardPath = "/reports";
 export default function Sidebar() {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const location = useLocation(); 
-  const { nomeCompleto } = useUser(); // pega nome global
+  const { nomeCompleto } = useUser();
   
   const isActive = (path: string) => location.pathname === path;
 

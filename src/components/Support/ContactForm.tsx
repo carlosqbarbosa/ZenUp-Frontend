@@ -22,7 +22,6 @@ const ContactForm = () => {
  
     };
 
-    // Handler para fechar a Snackbar
     const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
@@ -33,7 +32,6 @@ const ContactForm = () => {
     return (
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 3 }}>
             
-            {/* 1. Entre em Contato (Email) - Mantido */}
             <Box>
                 <Typography variant="subtitle1" sx={{ fontWeight: 600, color: colors.text }}>
                     Entre em Contato
@@ -61,7 +59,6 @@ const ContactForm = () => {
                 </Box>
             </Box>
 
-            {/* 2. Formulário de Suporte */}
             <Box 
                 component="form" 
                 onSubmit={handleSubmit} 
@@ -137,7 +134,6 @@ const ContactForm = () => {
                 </Button>
             </Box>
 
-            {/* 3. SNACKBAR DE SUCESSO */}
             <Snackbar
                 open={openSnackbar}
                 autoHideDuration={6000} 

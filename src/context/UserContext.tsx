@@ -8,7 +8,7 @@ type UserContextType = {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: { children: ReactNode }) {
-  const [nomeCompleto, setNomeCompleto] = useState("Felipe Gusmão"); // valor inicial
+  const [nomeCompleto, setNomeCompleto] = useState("Felipe Gusmão");
 
   return (
     <UserContext.Provider value={{ nomeCompleto, setNomeCompleto }}>

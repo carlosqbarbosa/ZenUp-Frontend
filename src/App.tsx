@@ -19,10 +19,8 @@ function LoginWithNavigate() {
   );
 }
 
-// Wrapper com navegação para o Register (Já existia, mas aqui está completo)
 function RegisterWithNavigate() {
   const navigate = useNavigate();
-  // Passa a função de navegação correta para o botão "Cadastre-se"
   return <Register onBackToLogin={() => navigate("/")} />;
 }
 
@@ -34,7 +32,7 @@ function App() {
         {/* Redireciona /login → / */}
         <Route path="/login" element={<Navigate to="/" />} />
 
-        {/* Login (tela inicial) - AGORA USANDO O WRAPPER CORRETO */}
+        {/* Login (tela inicial) */}
         <Route path="/" element={<LoginWithNavigate />} />
 
         {/* Register com navegação */}
