@@ -15,6 +15,7 @@ const initialProfileData: ProfileData = {
     dominio: "@zenup.com",
     estado: "Pernambuco",
     cidade: "Recife",
+    foto: "",
 };
 
 export default function Perfil() {
@@ -22,9 +23,11 @@ export default function Perfil() {
     const [savedData, setSavedData] = useState<ProfileData>(initialProfileData);
     const [isEditing, setIsEditing] = useState(false); 
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement> | { target: { name: string; value: string } }
+        ) => {
         setProfileData({ ...profileData, [e.target.name]: e.target.value });
-    };
+        };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();

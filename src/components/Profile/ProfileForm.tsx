@@ -19,6 +19,7 @@ export type ProfileData = {
   dominio?: string;
   estado?: string;
   cidade?: string;
+  foto?: string;
 };
 
 export type ProfileFormProps = {
@@ -234,17 +235,75 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
           flexShrink: 0,
         }}
       >
-        <Avatar
-          src={`https://i.pravatar.cc/300?u=${profileData.nomeCompleto}`}
-          alt={profileData.nomeCompleto}
-          sx={{
-            width: 160,
-            height: 160,
-            borderRadius: "16px",
-            mb: 2,
-            boxShadow: "0px 2px 6px rgba(0,0,0,0.08)",
+        {/* Upload de foto */}
+        <input
+          accept="image/*"
+          id="upload-photo"
+          type="file"
+          style={{ display: "none" }}
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                // Atualiza o campo 'foto' no profileData
+                onChange({
+                  target: { name: "foto", value: reader.result as string },
+                } as any);
+              };
+              reader.readAsDataURL(file); // Converte em base64
+            }
           }}
+          disabled={!isEditing}
         />
+
+        <label htmlFor="upload-photo">
+          <Box
+            sx={{
+              position: "relative",
+              cursor: isEditing ? "pointer" : "default",
+              "&:hover .overlay": isEditing
+                ? { opacity: 1, transition: "opacity 0.3s" }
+                : {},
+            }}
+          >
+            <Avatar
+              src={profileData.foto || `https://i.pravatar.cc/300?u=${profileData.nomeCompleto}`}
+              alt={profileData.nomeCompleto}
+              sx={{
+                width: 160,
+                height: 160,
+                borderRadius: "16px",
+                mb: 2,
+                boxShadow: "0px 2px 6px rgba(0,0,0,0.08)",
+              }}
+            />
+            {isEditing && (
+              <Box
+                className="overlay"
+                sx={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  backgroundColor: "rgba(0, 0, 0, 0.4)",
+                  color: "#fff",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: "16px",
+                  opacity: 0,
+                  transition: "opacity 0.3s",
+                  fontSize: "0.9rem",
+                  fontWeight: 500,
+                }}
+              >
+                Alterar foto
+              </Box>
+            )}
+          </Box>
+        </label>
 
         <Typography
           variant="subtitle1"
