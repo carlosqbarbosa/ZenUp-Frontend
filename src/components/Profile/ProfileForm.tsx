@@ -83,7 +83,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
   onEditStart,
   onChange,
 }) => {
-  const { setNomeCompleto } = useUser();
+  const { setNomeCompleto, setFotoPerfil } = useUser();
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   // Divide o nome completo em primeiro e segundo nome (para exibição no avatar)
@@ -96,6 +96,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
     // Atualiza o nome global (reflete na sidebar, por exemplo)
     setNomeCompleto(profileData.nomeCompleto);
 
+    setFotoPerfil(profileData.fotoPerfil || "");
     // Exibe o snackbar de sucesso
     setOpenSnackbar(true);
   };
@@ -186,9 +187,10 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
                 fullWidth
                 name="dominio"
                 value={profileData.dominio || ""}
-                disabled
+                onChange={onChange} 
                 sx={CustomTextFieldStyle}
                 variant="outlined"
+                disabled={!isEditing}
               />
             </InputWrapper>
           </Grid>

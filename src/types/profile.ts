@@ -1,5 +1,3 @@
-
-// 'type' para ser compatível com 'export type' em ambientes modernos.
 export type ProfileData = {
     nomeCompleto: string;
     email: string;
@@ -7,6 +5,7 @@ export type ProfileData = {
     dominio: string;
     estado: string;
     cidade: string;
+    foto: string;
 }
 
 export interface ProfileFormProps {

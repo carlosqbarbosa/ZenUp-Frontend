@@ -27,7 +27,7 @@ const reportsCardPath = "/reports";
 export default function Sidebar() {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const location = useLocation(); 
-  const { nomeCompleto } = useUser();
+  const { nomeCompleto, fotoPerfil } = useUser();
   
   const isActive = (path: string) => location.pathname === path;
 
@@ -212,13 +212,9 @@ export default function Sidebar() {
         mt: 2,
         }}>
           <Avatar 
-            sx={{ 
-              width: 50, 
-              height: 50, 
-              mr: 3, 
-              borderRadius: '12px'
-            }} 
-            src={`https://i.pravatar.cc/150?u=${nomeCompleto}`} 
+            sx={{ width: 50, height: 50, mr: 3, borderRadius: '12px' }} 
+            src={fotoPerfil || `https://i.pravatar.cc/150?u=${nomeCompleto}`}
+            alt={nomeCompleto || "Usuário"}
           />
           <Box>
             <Typography variant="body2" sx={{ color: colors.textGray }}>Bem vindo de volta!</Typography>
