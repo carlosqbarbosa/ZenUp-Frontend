@@ -1,4 +1,4 @@
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom"; 
 import colors from "../../styles/colors";
 import CadastroImg from "../../assets/CadastroImg.png";
@@ -126,6 +126,7 @@ export default function RegisterPage({ onBackToLogin }: RegisterProps) {
           >
             <FormRegister />
 
+            {/* Botão de cadastro 
             <Button
               variant="contained"
               fullWidth 
@@ -142,7 +143,7 @@ export default function RegisterPage({ onBackToLogin }: RegisterProps) {
               }}
             >
               Entrar
-            </Button>
+            </Button>*/}
           </Box>
 
           <Typography

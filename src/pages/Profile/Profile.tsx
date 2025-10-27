@@ -1,5 +1,6 @@
 import Layout from "../../components/Layout/Layout";
-import { Grid, Box } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 import { useState, useEffect } from "react";
 import React from "react"; 
 
