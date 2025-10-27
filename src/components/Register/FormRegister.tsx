@@ -9,17 +9,24 @@ import {
   TextField,
   Checkbox,
   Typography,
+  Button,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import colors from "../../styles/colors";
 
 const FormRegister = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [domain, setDomain] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  // Controle de exibição de senha
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowConfirmPassword = () =>
     setShowConfirmPassword((show) => !show);
@@ -32,6 +39,55 @@ const FormRegister = () => {
 
   const passwordsDoNotMatch =
     confirmPassword.length > 0 && password !== confirmPassword;
+
+  // Função que conecta com o backend
+  const handleRegister = async () => {
+    if (!name || !email || !domain || !password || !confirmPassword) {
+      alert("Preencha todos os campos!");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert("As senhas não coincidem!");
+      return;
+    }
+
+    if (!acceptedTerms) {
+      alert("Você precisa aceitar os termos e condições.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:3000/api/users/usuarios", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email: `${email}${domain}`,
+          password,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Erro ao cadastrar usuário");
+      }
+
+      const data = await response.json();
+      console.log("Usuário cadastrado:", data);
+      alert("Cadastro realizado com sucesso!");
+
+      // Limpa os campos após o sucesso
+      setName("");
+      setEmail("");
+      setDomain("");
+      setPassword("");
+      setConfirmPassword("");
+      setAcceptedTerms(false);
+    } catch (error) {
+      console.error(error);
+      alert("Falha ao conectar com o servidor.");
+    }
+  };
 
   return (
     <Box
@@ -48,24 +104,20 @@ const FormRegister = () => {
         fullWidth
         label="Nome completo"
         placeholder="Seu nome completo"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
         InputProps={{
-          sx: {
-            borderRadius: "10px",
-          },
+          sx: { borderRadius: "10px" },
         }}
       />
 
       {/* Email + Domínio */}
-      <Box
-        sx={{
-          display: "flex",
-          gap: 1.5,
-          width: "100%",
-        }}
-      >
+      <Box sx={{ display: "flex", gap: 1.5, width: "100%" }}>
         <TextField
           label="Email"
           placeholder="adminexemplo"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           sx={{
             flex: 1,
             "& .MuiOutlinedInput-root": { borderRadius: "10px" },
@@ -74,6 +126,8 @@ const FormRegister = () => {
         <TextField
           label="Domínio"
           placeholder="@exemplo.com"
+          value={domain}
+          onChange={(e) => setDomain(e.target.value)}
           sx={{
             width: "40%",
             "& .MuiOutlinedInput-root": { borderRadius: "10px" },
@@ -151,13 +205,14 @@ const FormRegister = () => {
         sx={{
           display: "flex",
           alignItems: "center",
-          justifyContent: "flex-start",
           gap: 1,
           width: "100%",
           mt: 0.5,
         }}
       >
         <Checkbox
+          checked={acceptedTerms}
+          onChange={(e) => setAcceptedTerms(e.target.checked)}
           size="small"
           sx={{
             color: colors.primary,
@@ -175,8 +230,25 @@ const FormRegister = () => {
           Aceito os Termos e Condições
         </Typography>
       </Box>
+
+      {/* Botão de envio */}
+      <Button
+        fullWidth
+        variant="contained"
+        onClick={handleRegister}
+        sx={{
+          backgroundColor: colors.primary,
+          borderRadius: "10px",
+          mt: 2,
+          textTransform: "none",
+          fontWeight: "bold",
+        }}
+      >
+        Cadastrar
+      </Button>
     </Box>
   );
 };
 
 export default FormRegister;
+
