@@ -17,6 +17,8 @@ import colors from "../../styles/colors";
 const FormRegister = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowConfirmPassword = () =>
@@ -28,12 +30,15 @@ const FormRegister = () => {
     event.preventDefault();
   };
 
+  const passwordsDoNotMatch =
+    confirmPassword.length > 0 && password !== confirmPassword;
+
   return (
     <Box
       sx={{
         display: "flex",
         flexDirection: "column",
-        alignItems: "flex-start", 
+        alignItems: "flex-start",
         gap: 2,
         width: "100%",
       }}
@@ -55,14 +60,14 @@ const FormRegister = () => {
         sx={{
           display: "flex",
           gap: 1.5,
-          width: "100%", 
+          width: "100%",
         }}
       >
         <TextField
           label="Email"
           placeholder="adminexemplo"
           sx={{
-            flex: 1, 
+            flex: 1,
             "& .MuiOutlinedInput-root": { borderRadius: "10px" },
           }}
         />
@@ -70,7 +75,7 @@ const FormRegister = () => {
           label="Domínio"
           placeholder="@exemplo.com"
           sx={{
-            width: "40%", 
+            width: "40%",
             "& .MuiOutlinedInput-root": { borderRadius: "10px" },
           }}
         />
@@ -83,6 +88,8 @@ const FormRegister = () => {
           id="password"
           type={showPassword ? "text" : "password"}
           placeholder="********"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           sx={{ borderRadius: "10px" }}
           endAdornment={
             <InputAdornment position="end">
@@ -106,6 +113,8 @@ const FormRegister = () => {
           id="confirm-password"
           type={showConfirmPassword ? "text" : "password"}
           placeholder="********"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
           sx={{ borderRadius: "10px" }}
           endAdornment={
             <InputAdornment position="end">
@@ -122,6 +131,21 @@ const FormRegister = () => {
         />
       </FormControl>
 
+      {/* Aviso de senhas não coincidentes */}
+      {passwordsDoNotMatch && (
+        <Typography
+          variant="caption"
+          sx={{
+            color: "red",
+            fontSize: "0.8rem",
+            marginTop: "-10px",
+            marginLeft: "4px",
+          }}
+        >
+          Senhas não coincidem
+        </Typography>
+      )}
+
       {/* Checkbox */}
       <Box
         sx={{
@@ -129,7 +153,7 @@ const FormRegister = () => {
           alignItems: "center",
           justifyContent: "flex-start",
           gap: 1,
-          width: "100%", 
+          width: "100%",
           mt: 0.5,
         }}
       >
@@ -148,7 +172,7 @@ const FormRegister = () => {
             fontSize: "0.85rem",
           }}
         >
-          aceito os termos
+          Aceito os Termos e Condições
         </Typography>
       </Box>
     </Box>
