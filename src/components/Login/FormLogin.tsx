@@ -49,11 +49,12 @@ const FormLogin = ({ onSubmit, onRegisterClick }: FormLoginProps) => {
         noValidate
         autoComplete="off"
       >
-        {/* CORREÇÃO: Aplica borderRadius no OutlinedInput interno do TextField */}
         <TextField 
             label="Email" 
             type="email" 
-            variant="outlined" 
+            variant="outlined"
+            required
+            fullWidth 
             sx={{ 
                 '& .MuiOutlinedInput-root': {
                     borderRadius: '12px', 
@@ -81,19 +82,6 @@ const FormLogin = ({ onSubmit, onRegisterClick }: FormLoginProps) => {
             label="Senha"
           />
         </FormControl>
-        {/* 
-        <Typography
-          variant="body2"
-          sx={{
-            textAlign: "right",
-            color: colors.primary,
-            cursor: "pointer",
-            fontSize: "0.9rem",
-            mt: -1,
-          }}
-        >
-          Esqueceu sua senha? Recuperar agora
-        </Typography>*/}
 
         <Button
           variant="contained"

@@ -50,7 +50,7 @@ export default function LoginPage({ onRegisterClick }: LoginProps) {
           flexGrow: 1, 
         }}
       >
-        {/* Contêiner INTERNO para o Conteúdo: Gerencia a Altura e o Scroll */}
+        {/* Contêiner INTERNO para o Conteúdo */}
         <Box
           sx={{
             display: "flex",
