@@ -1,14 +1,14 @@
 import Layout from "../../components/Layout/Layout";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import { useState, useEffect } from "react";
-import React from "react"; 
+import React, { useState } from "react";
 
 import type { ProfileData } from "../../types/profile";
-import ProfileForm from "../../components/Profile/ProfileForm"; 
+import ProfileForm from "../../components/Profile/ProfileForm";
 import ProfileHeader from "../../components/Profile/ProfileHeader";
 import colors from "../../styles/colors";
 import { useUser } from "../../context/UserContext";
+import { usePersistentState } from "../../hooks/usePersistentState";
 
 const initialProfileData: ProfileData = {
   nomeCompleto: "",
@@ -21,53 +21,39 @@ const initialProfileData: ProfileData = {
 };
 
 export default function Perfil() {
-  const [profileData, setProfileData] = useState<ProfileData>(initialProfileData);
-  const [savedData, setSavedData] = useState<ProfileData>(initialProfileData);
-  const [isEditing, setIsEditing] = useState(false); 
+  const [profileData, setProfileData] = usePersistentState<ProfileData>(
+    "profileData",
+    initialProfileData
+  );
 
-  const { nomeCompleto, setNomeCompleto } = useUser();
-
-  useEffect(() => {
-    setProfileData((prev) => ({ ...prev, nomeCompleto }));
-  }, [nomeCompleto]);
+  const [isEditing, setIsEditing] = useState(false);
+  const { setNomeCompleto } = useUser();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement> | { target: { name: string; value: string } }
   ) => {
     const { name, value } = e.target;
-    setProfileData({ ...profileData, [name]: value });
+    setProfileData((prev) => ({ ...prev, [name]: value }));
 
-    if (name === "nomeCompleto") {
-      setNomeCompleto(value);
-    }
+    if (name === "nomeCompleto") setNomeCompleto(value);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Dados do perfil salvos:", profileData);
-    setSavedData(profileData);
-    setIsEditing(false); 
+    setIsEditing(false);
   };
 
   const handleCancel = () => {
-    setProfileData(savedData); 
-    setIsEditing(false); 
+    setIsEditing(false);
   };
 
   return (
     <Layout title="Meu Perfil">
       <Box sx={{ p: 0, width: "100%", maxWidth: 1200, color: colors.primary }}>
-        
         <ProfileHeader />
-
-        <Grid 
-          container 
-          spacing={4} 
-          sx={{ width: "100%", maxWidth: 1200, height: "fit-content" }}
-        >
-          {/* COLUNA ESQUERDA: FORMULÁRIO */}
+        <Grid container spacing={4}>
           <Grid item xs={12} md={7}>
-            <ProfileForm 
+            <ProfileForm
               profileData={profileData}
               isEditing={isEditing}
               onSave={handleSubmit}

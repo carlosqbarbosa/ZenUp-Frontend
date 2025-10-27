@@ -137,7 +137,7 @@ const FormLogin: React.FC<FormLoginProps> = ({ onSubmit, onRegisterClick }) => {
             fontWeight: 600,
             mt: 1,
             boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.1)",
-            "&:hover": { backgroundColor: "#1d0879" },
+            "&:hover": { backgroundColor: colors.primaryDark },
           }}
         >
           {loading ? "Entrando..." : "Entrar"}

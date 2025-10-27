@@ -76,7 +76,6 @@ const FormRegister = () => {
       console.log("Usuário cadastrado:", data);
       alert("Cadastro realizado com sucesso!");
 
-      // Limpa os campos após o sucesso
       setName("");
       setEmail("");
       setDomain("");
@@ -238,10 +237,13 @@ const FormRegister = () => {
         onClick={handleRegister}
         sx={{
           backgroundColor: colors.primary,
-          borderRadius: "10px",
-          mt: 2,
-          textTransform: "none",
-          fontWeight: "bold",
+            borderRadius: "12px",
+            height: 48,
+            textTransform: "none",
+            fontWeight: 600,
+            mt: 1,
+            boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.1)",
+            "&:hover": { backgroundColor: colors.primaryDark },
         }}
       >
         Cadastrar

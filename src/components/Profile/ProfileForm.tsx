@@ -33,27 +33,43 @@ export type ProfileFormProps = {
   ) => void;
 };
 
-const CustomTextFieldStyle = {
-  "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+
+const getTextFieldStyle = (isEditing: boolean) => ({
   "& .MuiOutlinedInput-root": {
-    padding: "8px 0",
-    borderBottom: "1px solid #ddd",
-    borderRadius: "0",
-    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      borderColor: colors.primary,
+    backgroundColor: isEditing ? "#f5f5f5" : "#fff",
+    borderRadius: "8px",
+    transition: "all 0.2s ease",
+    "& fieldset": {
+      borderColor: isEditing ? "#7e57c2" : "#e0e0e0",
     },
-    "& legend": { display: "none" },
-    "& fieldset": { top: 0 },
+    "&:hover fieldset": {
+      borderColor: isEditing ? "#673ab7" : "#bdbdbd",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "#673ab7",
+      boxShadow: isEditing
+        ? "0 0 0 2px rgba(103, 58, 183, 0.1)"
+        : "0 0 0 1px rgba(0,0,0,0.05)",
+    },
     "&.Mui-disabled": {
-      backgroundColor: "#fafafa",
-      borderBottomColor: "#ccc",
+      backgroundColor: "#fff",
+      opacity: 1,
+      "& .MuiInputBase-input": {
+        WebkitTextFillColor: "#444 !important",
+      },
     },
   },
   "& .MuiInputBase-input": {
-    padding: "0 0 8px 0",
-    fontSize: "1rem",
+    color: isEditing ? "#222" : "#555",
+    fontSize: "0.95rem",
+    padding: "10px 12px",
+    fontWeight: isEditing ? 500 : 400,
   },
-};
+  "& input:-webkit-autofill": {
+    boxShadow: "0 0 0 30px white inset !important", 
+    WebkitTextFillColor: "#222 !important",
+  },
+});
 
 const InputWrapper: React.FC<{ label: string; children: React.ReactNode }> = ({
   label,
@@ -85,28 +101,15 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
 }) => {
   const { setNomeCompleto, setFotoPerfil } = useUser();
   const [openSnackbar, setOpenSnackbar] = useState(false);
-
-  // Divide o nome completo em primeiro e segundo nome (para exibição no avatar)
   const [firstName, secondName = ""] = profileData.nomeCompleto.split(" ");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSave(e);
-
-    // Atualiza o nome global (reflete na sidebar, por exemplo)
+    localStorage.setItem("profileData", JSON.stringify(profileData));
     setNomeCompleto(profileData.nomeCompleto);
-
-    setFotoPerfil(profileData.fotoPerfil || "");
-    // Exibe o snackbar de sucesso
+    setFotoPerfil(profileData.foto || "");
     setOpenSnackbar(true);
-  };
-
-  const handleClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") return;
-    setOpenSnackbar(false);
   };
 
   return (
@@ -124,8 +127,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         gap: { xs: 3, md: 6 },
         flexDirection: { xs: "column", md: "row" },
         alignItems: "flex-start",
-        maxWidth: "100%",
-        overflowX: "hidden",
       }}
     >
       {/* COLUNA ESQUERDA */}
@@ -138,90 +139,30 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         </Typography>
 
         <Grid container spacing={4}>
-          <Grid item xs={12} sm={6}>
-            <InputWrapper label="Nome completo">
-              <TextField
-                fullWidth
-                name="nomeCompleto"
-                value={profileData.nomeCompleto}
-                onChange={onChange}
-                sx={CustomTextFieldStyle}
-                variant="outlined"
-                disabled={!isEditing}
-              />
-            </InputWrapper>
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <InputWrapper label="Telefone">
-              <TextField
-                fullWidth
-                name="telefone"
-                value={profileData.telefone}
-                onChange={onChange}
-                sx={CustomTextFieldStyle}
-                variant="outlined"
-                disabled={!isEditing}
-              />
-            </InputWrapper>
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <InputWrapper label="Email">
-              <TextField
-                fullWidth
-                name="email"
-                type="email"
-                value={profileData.email}
-                onChange={onChange}
-                sx={CustomTextFieldStyle}
-                variant="outlined"
-                disabled={!isEditing}
-              />
-            </InputWrapper>
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <InputWrapper label="Domínio">
-              <TextField
-                fullWidth
-                name="dominio"
-                value={profileData.dominio || ""}
-                onChange={onChange} 
-                sx={CustomTextFieldStyle}
-                variant="outlined"
-                disabled={!isEditing}
-              />
-            </InputWrapper>
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <InputWrapper label="Estado">
-              <TextField
-                fullWidth
-                name="estado"
-                value={profileData.estado || ""}
-                onChange={onChange}
-                sx={CustomTextFieldStyle}
-                variant="outlined"
-                disabled={!isEditing}
-              />
-            </InputWrapper>
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <InputWrapper label="Cidade">
-              <TextField
-                fullWidth
-                name="cidade"
-                value={profileData.cidade || ""}
-                onChange={onChange}
-                sx={CustomTextFieldStyle}
-                variant="outlined"
-                disabled={!isEditing}
-              />
-            </InputWrapper>
-          </Grid>
+          {[
+            { label: "Nome completo", name: "nomeCompleto" },
+            { label: "Telefone", name: "telefone" },
+            { label: "Email", name: "email", type: "email" },
+            { label: "Domínio", name: "dominio" },
+            { label: "Estado", name: "estado" },
+            { label: "Cidade", name: "cidade" },
+          ].map((field) => (
+            <Grid key={field.name} item xs={12} sm={6}>
+              <InputWrapper label={field.label}>
+                <TextField
+                  fullWidth
+                  type={field.type || "text"}
+                  name={field.name}
+                  value={(profileData as any)[field.name] || ""}
+                  onChange={onChange}
+                  sx={getTextFieldStyle(isEditing)}
+                  variant="outlined"
+                  disabled={!isEditing}
+                  color="primary"
+                />
+              </InputWrapper>
+            </Grid>
+          ))}
         </Grid>
       </Box>
 
@@ -234,10 +175,8 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
           minWidth: { md: "220px" },
           width: { xs: "100%", md: "220px" },
           mt: { xs: 1, md: 5 },
-          flexShrink: 0,
         }}
       >
-        {/* Upload de foto */}
         <input
           accept="image/*"
           id="upload-photo"
@@ -248,12 +187,11 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
             if (file) {
               const reader = new FileReader();
               reader.onloadend = () => {
-                // Atualiza o campo 'foto' no profileData
                 onChange({
                   target: { name: "foto", value: reader.result as string },
                 } as any);
               };
-              reader.readAsDataURL(file); // Converte em base64
+              reader.readAsDataURL(file);
             }
           }}
           disabled={!isEditing}
@@ -270,7 +208,10 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
             }}
           >
             <Avatar
-              src={profileData.foto || `https://i.pravatar.cc/300?u=${profileData.nomeCompleto}`}
+              src={
+                profileData.foto ||
+                `https://i.pravatar.cc/300?u=${profileData.nomeCompleto}`
+              }
               alt={profileData.nomeCompleto}
               sx={{
                 width: 160,
@@ -379,15 +320,14 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         )}
       </Box>
 
-      {/* SNACKBAR DE SUCESSO */}
+      {/* SNACKBAR */}
       <Snackbar
         open={openSnackbar}
         autoHideDuration={4000}
-        onClose={handleClose}
+        onClose={() => setOpenSnackbar(false)}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >
         <Alert
-          onClose={handleClose}
           severity="success"
           variant="filled"
           sx={{ width: "100%", bgcolor: colors.greenSuccess }}
@@ -400,4 +340,5 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
 };
 
 export default ProfileForm;
+
 
