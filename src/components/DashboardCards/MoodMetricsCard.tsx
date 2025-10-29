@@ -1,32 +1,10 @@
 import { Box, Typography, Card, Button, Grid } from "@mui/material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import colors from "../../styles/colors";
+import { moodMetricsMock } from "../../data/moodMetrics";
 
 export default function MetricaPorHumor() {
-  const sentimentos = [
-    { nome: "Focado", valor: 30 },
-    { nome: "Grato", valor: 20 },
-    { nome: "Confiante", valor: 5 },
-    { nome: "Inspirado", valor: 50 },
-    { nome: "Frustrado", valor: 50 },
-    { nome: "Desanimado", valor: 50 },
-  ];
-
-  const energia = [
-    { nome: "Energizado", valor: 50 },
-    { nome: "Alta", valor: 50 },
-    { nome: "Moderada", valor: 5 },
-    { nome: "Baixa", valor: 20 },
-    { nome: "Esgotada", valor: 30 },
-  ];
-
-  const estresse = [
-    { nome: "Relaxado", valor: 30 },
-    { nome: "Calmo", valor: 20 },
-    { nome: "Moderado", valor: 5 },
-    { nome: "Estressado", valor: 50 },
-    { nome: "Muito estressado", valor: 50 },
-  ];
+  const { sentimentos, energia, estresse } = moodMetricsMock;
 
   const renderColuna = (titulo: string, cor: string, lista: any[]) => (
     <Box
@@ -41,23 +19,11 @@ export default function MetricaPorHumor() {
         backgroundColor: colors.white,
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          mb: 1,
-        }}
-      >
-        <Typography
-          variant="subtitle1"
-          sx={{ fontWeight: 700, color: cor }}
-        >
+      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
+        <Typography variant="subtitle1" sx={{ fontWeight: 700, color: cor }}>
           {titulo}
         </Typography>
-        <Typography
-          variant="subtitle1"
-          sx={{ fontWeight: 700, color: cor }}
-        >
+        <Typography variant="subtitle1" sx={{ fontWeight: 700, color: cor }}>
           %
         </Typography>
       </Box>
@@ -85,10 +51,7 @@ export default function MetricaPorHumor() {
               textAlign: "center",
             }}
           >
-            <Typography
-              variant="body2"
-              sx={{ fontWeight: 600, color: cor }}
-            >
+            <Typography variant="body2" sx={{ fontWeight: 600, color: cor }}>
               {item.valor}
             </Typography>
           </Box>
@@ -126,7 +89,7 @@ export default function MetricaPorHumor() {
             variant="body2"
             sx={{ color: colors.textGray, fontSize: "0.85rem" }}
           >
-            humor prevalescente bla bla bla
+            Humor prevalecente e distribuição emocional dos colaboradores
           </Typography>
         </Box>
 

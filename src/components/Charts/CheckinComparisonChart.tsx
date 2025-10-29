@@ -10,23 +10,9 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import colors from "../../styles/colors";
+import { checkinComparisonMock } from "../../data/checkinsComparison"; // ✅ mock externo
 
 export default function CheckinComparisonChart() {
-  const data = [
-    { mes: "Jan", fezCheckin: 220, naoFezCheckin: 180 },
-    { mes: "Fev", fezCheckin: 200, naoFezCheckin: 150 },
-    { mes: "Mar", fezCheckin: 250, naoFezCheckin: 210 },
-    { mes: "Abr", fezCheckin: 180, naoFezCheckin: 160 },
-    { mes: "Mai", fezCheckin: 240, naoFezCheckin: 200 },
-    { mes: "Jun", fezCheckin: 210, naoFezCheckin: 170 },
-    { mes: "Jul", fezCheckin: 230, naoFezCheckin: 190 },
-    { mes: "Ago", fezCheckin: 260, naoFezCheckin: 220 },
-    { mes: "Set", fezCheckin: 270, naoFezCheckin: 210 },
-    { mes: "Out", fezCheckin: 300, naoFezCheckin: 250 },
-    { mes: "Nov", fezCheckin: 280, naoFezCheckin: 230 },
-    { mes: "Dez", fezCheckin: 310, naoFezCheckin: 260 },
-  ];
-
   return (
     <Card
       sx={{
@@ -39,28 +25,19 @@ export default function CheckinComparisonChart() {
       <Box sx={{ width: "100%", height: 400 }}>
         <Typography
           variant="h6"
-          sx={{
-            fontWeight: 700,
-            color: colors.primary,
-            mb: 1,
-          }}
+          sx={{ fontWeight: 700, color: colors.primary, mb: 1 }}
         >
           Comparação de Check-ins Mensais
         </Typography>
 
-        <Typography
-          variant="body2"
-          sx={{
-            color: "text.secondary",
-            mb: 3,
-          }}
-        >
-          Comparativo de colaboradores que fizeram e não fizeram check-in ao longo do ano
+        <Typography variant="body2" sx={{ color: "text.secondary", mb: 3 }}>
+          Comparativo de colaboradores que fizeram e não fizeram check-in ao
+          longo do ano
         </Typography>
 
         <ResponsiveContainer width="100%" height="85%">
           <BarChart
-            data={data}
+            data={checkinComparisonMock}
             barGap={6}
             margin={{ top: 10, right: 20, left: -15, bottom: 5 }}
           >
@@ -89,28 +66,17 @@ export default function CheckinComparisonChart() {
               }}
               formatter={(value: number, name: string) => [
                 `${value} colaboradores`,
-                name === "fezCheckin"
-                  ? "Fez check-in"
-                  : "Não fez check-in",
+                name === "fezCheckin" ? "Fez check-in" : "Não fez check-in",
               ]}
             />
-            <Legend
-              iconType="circle"
-              wrapperStyle={{
-                paddingTop: 10,
-                fontSize: 12,
-              }}
-            />
+            <Legend iconType="circle" wrapperStyle={{ paddingTop: 10, fontSize: 12 }} />
 
-            {/* Fez Check-in */}
             <Bar
               dataKey="fezCheckin"
               name="Fez check-in"
               fill={colors.primary}
               radius={[6, 6, 0, 0]}
             />
-
-            {/* Não fez Check-in */}
             <Bar
               dataKey="naoFezCheckin"
               name="Não fez check-in"
@@ -123,3 +89,4 @@ export default function CheckinComparisonChart() {
     </Card>
   );
 }
+

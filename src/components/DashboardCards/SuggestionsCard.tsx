@@ -3,17 +3,11 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import colors from "../../styles/colors";
+import { suggestionsMock } from "../../data/suggestions"; 
 
-interface Suggestion {
-  text: string;
-  type: "success" | "warning" | "error";
-}
+export default function SuggestionsCard() {
+  const suggestions = suggestionsMock;
 
-interface Props {
-  suggestions: Suggestion[];
-}
-
-export default function SuggestionsCard({ suggestions }: Props) {
   const getIcon = (type: string) => {
     switch (type) {
       case "success":

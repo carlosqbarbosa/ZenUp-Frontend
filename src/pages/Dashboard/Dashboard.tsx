@@ -2,26 +2,11 @@ import { Box, Typography, Card, Stack, Button } from "@mui/material";
 import Layout from "../../components/Layout/Layout";
 import DailyMetricsCard from "../../components/DashboardCards/DailyMetricsCard";
 import SuggestionsCard from "../../components/DashboardCards/SuggestionsCard";
-import MoodMetricsCard from "../../components/DashboardCards/MoodMetricsCard";
+import MetricaPorHumor from "../../components/DashboardCards/MoodMetricsCard";
 import CheckinComparisonChart from "../../components/Charts/CheckinComparisonChart";
 import colors from "../../styles/colors";
 
 export default function Dashboard() {
-  const suggestions = [
-    {
-      text: "O humor da sua equipe está pedindo atenção. Promova uma roda de conversa de 30 minutos.",
-      type: "warning",
-    },
-    {
-      text: "Nível de energia excelente! Incentive um momento de gratidão reconhecendo publicamente os esforços.",
-      type: "success",
-    },
-    {
-      text: "Estresse alto. Ofereça um workshop de 20 minutos sobre técnicas de respiração.",
-      type: "error",
-    },
-  ];
-
   return (
     <Layout title="Dashboard">
       <Box sx={{ display: "flex", flexDirection: "column", gap: 4, p: 2 }}>
@@ -31,7 +16,8 @@ export default function Dashboard() {
             Dashboard
           </Typography>
           <Typography color="text.secondary">
-            Acesse as métricas agregadas para acompanhar as tendências e receba insights para cultivar uma cultura mais saudável
+            Acompanhe as métricas agregadas e receba insights para cultivar uma
+            cultura organizacional mais saudável.
           </Typography>
         </Box>
 
@@ -43,8 +29,8 @@ export default function Dashboard() {
             gap: 3,
           }}
         >
-          <DailyMetricsCard checkins={526} humor="Grato" participacao={80} />
-          <SuggestionsCard suggestions={suggestions} />
+          <DailyMetricsCard />
+          <SuggestionsCard />
         </Box>
 
         {/* Linha 2 */}
@@ -55,7 +41,13 @@ export default function Dashboard() {
             gap: 3,
           }}
         >
-          <Card sx={{ borderRadius: "20px", p: 3, boxShadow: "0px 4px 20px rgba(0,0,0,0.05)" }}>
+          <Card
+            sx={{
+              borderRadius: "20px",
+              p: 3,
+              boxShadow: "0px 4px 20px rgba(0,0,0,0.05)",
+            }}
+          >
             <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
               <Stack direction="row" spacing={1}>
                 <Button variant="outlined" color="primary" size="small">
@@ -69,7 +61,7 @@ export default function Dashboard() {
             <CheckinComparisonChart />
           </Card>
 
-          <MoodMetricsCard />
+          <MetricaPorHumor />
         </Box>
       </Box>
     </Layout>
