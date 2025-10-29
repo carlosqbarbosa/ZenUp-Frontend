@@ -10,7 +10,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import colors from "../../styles/colors";
-import { checkinComparisonMock } from "../../data/checkinsComparison"; // ✅ mock externo
+import { checkinComparisonMock } from "../../data/checkinsComparison"; 
 
 export default function CheckinComparisonChart() {
   return (
