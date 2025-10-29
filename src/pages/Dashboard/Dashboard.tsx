@@ -1,4 +1,4 @@
-import { Box, Typography, Card, Stack, Button } from "@mui/material";
+import { Box, Typography, Card } from "@mui/material";
 import Layout from "../../components/Layout/Layout";
 import DailyMetricsCard from "../../components/DashboardCards/DailyMetricsCard";
 import SuggestionsCard from "../../components/DashboardCards/SuggestionsCard";
@@ -45,19 +45,11 @@ export default function Dashboard() {
             sx={{
               borderRadius: "20px",
               p: 3,
-              boxShadow: "0px 4px 20px rgba(0,0,0,0.05)",
+              boxShadow: "none", 
+              background: "transparent",
+              width: "740px",
             }}
           >
-            <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
-              <Stack direction="row" spacing={1}>
-                <Button variant="outlined" color="primary" size="small">
-                  Mensal
-                </Button>
-                <Button variant="contained" color="warning" size="small">
-                  Baixar
-                </Button>
-              </Stack>
-            </Stack>
             <CheckinComparisonChart />
           </Card>
 
