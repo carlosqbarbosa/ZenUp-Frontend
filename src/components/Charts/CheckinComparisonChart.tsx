@@ -25,8 +25,8 @@ export default function CheckinComparisonChart() {
     <Box
       sx={{
         width: "100%",
-        backgroundColor: "transparent", // remove fundo branco de trás
-        boxShadow: "none", // remove sombra dupla
+        backgroundColor: "transparent",
+        boxShadow: "none",
       }}
     >
       <Card

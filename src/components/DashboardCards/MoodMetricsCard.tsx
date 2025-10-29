@@ -6,7 +6,9 @@ import { moodMetricsMock } from "../../data/moodMetrics";
 export default function MetricaPorHumor() {
   const { sentimentos, energia, estresse } = moodMetricsMock;
 
-  const renderColuna = (titulo: string, cor: string, lista: any[]) => (
+  type MetricItem = { nome: string; valor: number };
+
+  const renderColuna = (titulo: string, cor: string, lista: MetricItem[]) => (
     <Box
       sx={{
         flex: 1,
@@ -132,13 +134,13 @@ export default function MetricaPorHumor() {
 
       {/* Colunas */}
       <Grid container spacing={2}>
-        <Grid item xs={12} md={4}>
+        <Grid component="div" item xs={12} md={4}>
           {renderColuna("Sentimentos", colors.secondary, sentimentos)}
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid component="div" item xs={12} md={4}>
           {renderColuna("Energia", colors.primary, energia)}
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid component="div" item xs={12} md={4}>
           {renderColuna("Estresse", colors.error, estresse)}
         </Grid>
       </Grid>
