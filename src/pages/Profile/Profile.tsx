@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import type { ProfileData } from "../../types/profile";
 import ProfileForm from "../../components/Profile/ProfileForm";
 import ProfileHeader from "../../components/Profile/ProfileHeader";
-import colors from "../../styles/colors";
+//import colors from "../../styles/colors";
 import { useUser } from "../../context/UserContext";
 import { usePersistentState } from "../../hooks/usePersistentState";
 
@@ -49,20 +49,71 @@ export default function Perfil() {
 
   return (
     <Layout title="Meu Perfil">
-      <Box sx={{ p: 0, width: "100%", maxWidth: 1200, color: colors.primary }}>
-        <ProfileHeader />
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={7}>
-            <ProfileForm
-              profileData={profileData}
-              isEditing={isEditing}
-              onSave={handleSubmit}
-              onCancel={handleCancel}
-              onEditStart={() => setIsEditing(true)}
-              onChange={handleChange}
-            />
+      <Box
+        sx={{
+          width: "100%",
+          maxWidth: "100vw",
+          overflowX: "hidden",
+          backgroundColor: "transparent",
+          display: "flex",
+          justifyContent: "center",
+          boxSizing: "border-box",
+          py: { xs: 2, sm: 3, md: 4 },
+          px: { xs: 2, sm: 4, md: 6 },
+        }}
+      >
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: 1200,
+            display: "flex",
+            flexDirection: "column",
+            gap: { xs: 3, md: 4 },
+          }}
+        >
+          {/* Cabeçalho do perfil (foto e título) */}
+          <ProfileHeader />
+
+          {/*  Layout responsivo: formulário e imagem lado a lado no desktop */}
+          <Grid
+            container
+            spacing={4}
+            alignItems="flex-start"
+            justifyContent="center"
+            sx={{
+              width: "100%",
+              margin: 0,
+              flexWrap: "wrap",
+            }}
+          >
+            {/*  Formulário ocupa 100% no mobile e 8/12 no desktop */}
+            <Grid item xs={12} md={8} sx={{ width: "100%", minWidth: 0 }}>
+              <ProfileForm
+                profileData={profileData}
+                isEditing={isEditing}
+                onSave={handleSubmit}
+                onCancel={handleCancel}
+                onEditStart={() => setIsEditing(true)}
+                onChange={handleChange}
+              />
+            </Grid>
+
+            {/*  Foto de perfil e botão de edição (se existirem) ficam ao lado */}
+            <Grid
+              item
+              xs={12}
+              md={4}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+                mt: { xs: 2, md: 0 },
+              }}
+            >
+            </Grid>
           </Grid>
-        </Grid>
+        </Box>
       </Box>
     </Layout>
   );

@@ -53,7 +53,6 @@ export default function DailyMetricsCard() {
     fetchMetrics();
   }, []);
 
-  // Ícones correspondentes às métricas
   const iconMap: Record<string, JSX.Element> = {
     "Check-ins": (
       <InsertChartIcon sx={{ color: "#4335A7", mb: 1, fontSize: "32px" }} />
