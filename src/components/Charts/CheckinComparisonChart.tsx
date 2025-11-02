@@ -2,6 +2,8 @@ import {
   Box,
   Typography,
   Card,
+  Stack,
+  Button,
 } from "@mui/material";
 import {
   BarChart,
@@ -13,6 +15,8 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import DownloadIcon from "@mui/icons-material/Download"; 
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import colors from "../../styles/colors";
 import { checkinComparisonMock } from "../../data/checkinsComparison";
 
@@ -85,6 +89,44 @@ export default function CheckinComparisonChart() {
           Comparativo de colaboradores que fizeram e não fizeram check-in ao
           longo do ano
         </Typography>
+        {/* Botões*/} 
+        <Stack direction="row" spacing={2} mb={4}> 
+          <Button 
+            variant="outlined" 
+            startIcon={<DownloadIcon />} 
+            sx={{ 
+            textTransform: "none", 
+            borderRadius: "12px", 
+            borderColor: colors.secondary, 
+            color: colors.secondary, 
+            fontWeight: 500, px: 2.5, 
+            "&:hover": { 
+              backgroundColor: "rgba(255,107,53,0.08)", 
+              borderColor: colors.secondary, 
+              }, 
+              }} 
+               > 
+                Baixar 
+          </Button> 
+          
+          <Button 
+            variant="outlined" 
+            startIcon={<CalendarMonthIcon />} 
+            sx={{ 
+            textTransform: "none", 
+            borderRadius: "12px", 
+            borderColor: colors.primary, color: colors.primary, 
+            fontWeight: 500, 
+            px: 2.5, 
+            "&:hover": 
+            { backgroundColor: "rgba(92,70,249,0.08)", 
+            borderColor: colors.primary, 
+            }, 
+            }} 
+              > 
+              Mensal 
+          </Button> 
+        </Stack>
 
         {/* Gráfico */}
         <Box sx={{ width: "100%", height: 370 }}>
