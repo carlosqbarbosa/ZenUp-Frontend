@@ -4,3 +4,11 @@ html, body {
   height: 100%; 
   overflow-x: hidden;
 }
+
+/* Estilos do carousel */
+.slick-slide {
+  padding: 0 8px;
+}
+.slick-list {
+  margin: 0 -8px;
+}
