@@ -1,10 +1,15 @@
+import { useRef } from "react";
 import {
   Box,
   Typography,
   Card,
-  Stack,
   Button,
+  Stack,
 } from "@mui/material";
+import DownloadIcon from "@mui/icons-material/Download";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 import {
   BarChart,
   Bar,
@@ -15,8 +20,6 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import DownloadIcon from "@mui/icons-material/Download"; 
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import colors from "../../styles/colors";
 import { checkinComparisonMock } from "../../data/checkinsComparison";
 
@@ -59,8 +62,27 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
 };
 
 export default function CheckinComparisonChart() {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleDownload = async () => {
+    try {
+      const element = cardRef.current;
+      if (!element) return;
+      const canvas = await html2canvas(element, { scale: 2, useCORS: true });
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = (canvas.height * pageWidth) / canvas.width;
+      pdf.addImage(imgData, "PNG", 0, 0, pageWidth, pageHeight);
+      pdf.save("Relatório - Check-ins.pdf");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <Box
+      ref={cardRef}
       sx={{
         width: "100%",
         backgroundColor: "transparent",
@@ -76,57 +98,70 @@ export default function CheckinComparisonChart() {
         }}
       >
         {/* Cabeçalho */}
-        <Typography
-          variant="h6"
-          sx={{ fontWeight: 700, color: colors.primary, mb: 0.5 }}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 3,
+            flexWrap: "wrap",
+            gap: 2,
+          }}
         >
-          Comparação de Check-ins Mensais
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{ color: colors.textGray, mb: 3 }}
-        >
-          Comparativo de colaboradores que fizeram e não fizeram check-in ao
-          longo do ano
-        </Typography>
-        {/* Botões*/} 
-        <Stack direction="row" spacing={2} mb={4}> 
-          <Button 
-            variant="outlined" 
-            startIcon={<DownloadIcon />} 
-            sx={{ 
-            textTransform: "none", 
-            borderRadius: "12px", 
-            borderColor: colors.secondary, 
-            color: colors.secondary, 
-            fontWeight: 500, px: 2.5, 
-            "&:hover": { 
-              backgroundColor: "rgba(255,107,53,0.08)", 
-              borderColor: colors.secondary, 
-              }, 
-              }} 
-               > 
-                Baixar 
-          </Button> 
-          
-          <Button 
-            variant="outlined" 
-            startIcon={<CalendarMonthIcon />} 
-            sx={{ 
-            textTransform: "none", 
-            borderRadius: "12px", 
-            borderColor: colors.primary, color: colors.primary, 
-            fontWeight: 500, 
-            px: 2.5, 
-            "&:hover": 
-            { backgroundColor: "rgba(92,70,249,0.08)", 
-            borderColor: colors.primary, 
-            }, 
-            }} 
-              > 
-              Mensal 
-          </Button> 
-        </Stack>
+          <Box>
+            <Typography
+              variant="h6"
+              sx={{ fontWeight: 700, color: colors.primary, mb: 0.5 }}
+            >
+              Comparação de Check-ins Mensais
+            </Typography>
+            <Typography variant="body2" sx={{ color: colors.textGray }}>
+              Comparativo de colaboradores que fizeram e não fizeram check-in ao
+              longo do ano
+            </Typography>
+          </Box>
+
+          <Stack direction="row" spacing={2}>
+            <Button
+              variant="outlined"
+              startIcon={<DownloadIcon />}
+              onClick={handleDownload}
+              sx={{
+                textTransform: "none",
+                borderRadius: "12px",
+                borderColor: colors.secondary,
+                color: colors.secondary,
+                fontWeight: 500,
+                px: 2.5,
+                "&:hover": {
+                  backgroundColor: "rgba(255,107,53,0.08)",
+                  borderColor: colors.secondary,
+                },
+              }}
+            >
+              Baixar
+            </Button>
+
+            <Button
+              variant="outlined"
+              startIcon={<CalendarMonthIcon />}
+              sx={{
+                textTransform: "none",
+                borderRadius: "12px",
+                borderColor: colors.primary,
+                color: colors.primary,
+                fontWeight: 500,
+                px: 2.5,
+                "&:hover": {
+                  backgroundColor: "rgba(92,70,249,0.08)",
+                  borderColor: colors.primary,
+                },
+              }}
+            >
+              Mensal
+            </Button>
+          </Stack>
+        </Box>
 
         {/* Gráfico */}
         <Box sx={{ width: "100%", height: 370 }}>
@@ -157,7 +192,6 @@ export default function CheckinComparisonChart() {
                 iconType="circle"
                 wrapperStyle={{ paddingTop: 10, fontSize: 12 }}
               />
-
               <Bar
                 dataKey="fezCheckin"
                 name="Fez check-in"

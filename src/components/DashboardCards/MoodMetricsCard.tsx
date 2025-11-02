@@ -1,9 +1,11 @@
+import { useState, useRef } from "react";
 import { Box, Typography, Card, Button, IconButton } from "@mui/material";
-import DownloadIcon from "@mui/icons-material/Download"; 
+import DownloadIcon from "@mui/icons-material/Download";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { useState } from "react";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 import colors from "../../styles/colors";
 import { moodMetricsMock } from "../../data/moodMetrics";
 
@@ -17,6 +19,7 @@ export default function MetricaPorHumor() {
   ];
 
   const [indexAtual, setIndexAtual] = useState(0);
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const handlePrev = () => {
     setIndexAtual((prev) => (prev === 0 ? metricas.length - 1 : prev - 1));
@@ -24,6 +27,30 @@ export default function MetricaPorHumor() {
 
   const handleNext = () => {
     setIndexAtual((prev) => (prev === metricas.length - 1 ? 0 : prev + 1));
+  };
+
+  // 🔽 Função de Download (baseada na ReportsPage)
+  const handleDownload = async () => {
+    try {
+      const element = cardRef.current;
+      if (!element) return;
+
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+      });
+      const imgData = canvas.toDataURL("image/png");
+
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = (canvas.height * pageWidth) / canvas.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, pageWidth, pageHeight);
+      pdf.save(`Relatório - ${metricas[indexAtual].titulo}.pdf`);
+    } catch (err) {
+      console.error("Erro ao gerar PDF:", err);
+      alert("Ocorreu um erro ao gerar o relatório.");
+    }
   };
 
   const renderColuna = (titulo: string, cor: string, lista: any[]) => (
@@ -83,6 +110,7 @@ export default function MetricaPorHumor() {
 
   return (
     <Card
+      ref={cardRef} // 🔹 Elemento que será capturado no PDF
       sx={{
         borderRadius: "20px",
         p: 3,
@@ -90,7 +118,7 @@ export default function MetricaPorHumor() {
         boxShadow: "0px 4px 20px rgba(0,0,0,0.05)",
       }}
     >
-      {/* Cabeçalho aprimorado */}
+      {/* Cabeçalho */}
       <Box
         sx={{
           display: "flex",
@@ -127,23 +155,25 @@ export default function MetricaPorHumor() {
             flexShrink: 0,
           }}
         >
-          <Button 
-            variant="outlined" 
-            startIcon={<DownloadIcon />} 
-            sx={{ 
-            textTransform: "none", 
-            borderRadius: "12px", 
-            borderColor: colors.secondary, 
-            color: colors.secondary, 
-            fontWeight: 500, px: 2.5, 
-            "&:hover": { 
-              backgroundColor: "rgba(255,107,53,0.08)", 
-              borderColor: colors.secondary, 
-              }, 
-              }} 
-               > 
-                Baixar 
-          </Button> 
+          <Button
+            variant="outlined"
+            startIcon={<DownloadIcon />}
+            onClick={handleDownload} // ⬅️ Baixar o PDF
+            sx={{
+              textTransform: "none",
+              borderRadius: "12px",
+              borderColor: colors.secondary,
+              color: colors.secondary,
+              fontWeight: 500,
+              px: 2.5,
+              "&:hover": {
+                backgroundColor: "rgba(255,107,53,0.08)",
+                borderColor: colors.secondary,
+              },
+            }}
+          >
+            Baixar
+          </Button>
           <Button
             variant="outlined"
             startIcon={<CalendarMonthIcon />}
@@ -166,7 +196,7 @@ export default function MetricaPorHumor() {
         </Box>
       </Box>
 
-      {/* Carrossel de métricas */}
+      {/* Carrossel */}
       <Box
         sx={{
           position: "relative",
@@ -215,7 +245,7 @@ export default function MetricaPorHumor() {
         </IconButton>
       </Box>
 
-      {/* Indicadores (bolinhas do carrossel) */}
+      {/* Indicadores */}
       <Box
         sx={{
           display: "flex",

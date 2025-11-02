@@ -1,17 +1,91 @@
-import { Box, Typography, Card, IconButton } from "@mui/material";
+import { useRef, useEffect, useState } from "react";
+import {
+  Box,
+  Card,
+  Typography,
+  CircularProgress,
+  Stack,
+  Button,
+} from "@mui/material";
+import DownloadIcon from "@mui/icons-material/Download";
 import InsertChartIcon from "@mui/icons-material/InsertChart";
 import MoodIcon from "@mui/icons-material/Mood";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import GroupIcon from "@mui/icons-material/Group";
-import DownloadIcon from "@mui/icons-material/FileDownloadOutlined";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 import colors from "../../styles/colors";
-import { dailyMetricsMock } from "../../data/dailyMetrics";
-
-
+import { getDailyMetrics } from "../../services/dailyMetricsService";
+import type { DailyMetric } from "../../services/dailyMetricsService";
 export default function DailyMetricsCard() {
-  const { checkins, humor, participacao } = dailyMetricsMock;
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [metrics, setMetrics] = useState<DailyMetric[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const handleDownload = async () => {
+    try {
+      const element = cardRef.current;
+      if (!element) return;
+      const canvas = await html2canvas(element, { scale: 2, useCORS: true });
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = (canvas.height * pageWidth) / canvas.width;
+      pdf.addImage(imgData, "PNG", 0, 0, pageWidth, pageHeight);
+      pdf.save("Relatório - Métricas Diárias.pdf");
+    } catch (err) {
+      console.error("Erro ao gerar PDF:", err);
+    }
+  };
+
+  // Busca os dados (da API ou mock)
+  useEffect(() => {
+    const fetchMetrics = async () => {
+      try {
+        const data = await getDailyMetrics();
+        setMetrics(data);
+      } catch (error) {
+        console.error("Erro ao buscar métricas diárias:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchMetrics();
+  }, []);
+
+  // Ícones correspondentes às métricas
+  const iconMap: Record<string, JSX.Element> = {
+    "Check-ins": (
+      <InsertChartIcon sx={{ color: "#4335A7", mb: 1, fontSize: "32px" }} />
+    ),
+    "Humor médio": (
+      <MoodIcon sx={{ color: "#FF6B35", mb: 1, fontSize: "32px" }} />
+    ),
+    "Participação": (
+      <GroupIcon sx={{ color: "#00B894", mb: 1, fontSize: "32px" }} />
+    ),
+  };
+
+  if (loading) {
+    return (
+      <Card
+        sx={{
+          borderRadius: "24px",
+          p: 4,
+          textAlign: "center",
+          backgroundColor: colors.white,
+          boxShadow: "0px 4px 20px rgba(0,0,0,0.05)",
+        }}
+      >
+        <CircularProgress />
+        <Typography sx={{ mt: 2 }}>Carregando métricas...</Typography>
+      </Card>
+    );
+  }
 
   return (
     <Card
+      ref={cardRef}
       sx={{
         borderRadius: "24px",
         p: 4,
@@ -40,19 +114,46 @@ export default function DailyMetricsCard() {
           </Typography>
         </Box>
 
-        <IconButton
-          sx={{
-            color: colors.secondary,
-            border: `1px solid ${colors.secondary}`,
-            borderRadius: "10px",
-            px: 2,
-            py: 0.5,
-            fontSize: "0.9rem",
-          }}
-        >
-          <Typography sx={{ mr: 0.5, fontWeight: 500 }}>Baixar</Typography>
-          <DownloadIcon sx={{ fontSize: "18px" }} />
-        </IconButton>
+          <Stack direction="row" spacing={2}>
+            <Button
+              variant="outlined"
+              startIcon={<DownloadIcon />}
+              onClick={handleDownload}
+              sx={{
+                textTransform: "none",
+                borderRadius: "12px",
+                borderColor: colors.secondary,
+                color: colors.secondary,
+                fontWeight: 500,
+                px: 2.5,
+                "&:hover": {
+                  backgroundColor: "rgba(255,107,53,0.08)",
+                  borderColor: colors.secondary,
+                },
+              }}
+            >
+              Baixar
+            </Button>
+
+            <Button
+              variant="outlined"
+              startIcon={<CalendarMonthIcon />}
+              sx={{
+                textTransform: "none",
+                borderRadius: "12px",
+                borderColor: colors.primary,
+                color: colors.primary,
+                fontWeight: 500,
+                px: 2.5,
+                "&:hover": {
+                  backgroundColor: "rgba(92,70,249,0.08)",
+                  borderColor: colors.primary,
+                },
+              }}
+            >
+              Mensal
+            </Button>
+          </Stack>
       </Box>
 
       {/* Cards */}
@@ -64,92 +165,52 @@ export default function DailyMetricsCard() {
           flexWrap: "wrap",
         }}
       >
-        {/* Check-ins */}
-        <Box
-          sx={{
-            flex: 1,
-            p: 3,
-            borderRadius: "16px",
-            backgroundColor: colors.purpleLight,
-            textAlign: "center",
-          }}
-        >
-          <InsertChartIcon
-            sx={{ color: colors.primary, mb: 1, fontSize: "32px" }}
-          />
-          <Typography
-            variant="h4"
-            sx={{ fontWeight: 700, color: colors.text }}
+        {metrics.map((item) => (
+          <Box
+            key={item.nome}
+            sx={{
+              flex: 1,
+              p: 3,
+              borderRadius: "16px",
+              backgroundColor: `${item.cor}1A`,
+              textAlign: "center",
+              minWidth: "200px",
+            }}
           >
-            {checkins}
+            {iconMap[item.nome]}
             <Typography
-              component="span"
-              sx={{ fontSize: "1rem", color: colors.textGray }}
+              variant="h4"
+              sx={{ fontWeight: 700, color: colors.text }}
             >
-              /1000
+              {item.valor}
+              {item.nome === "Participação" && (
+                <Typography
+                  component="span"
+                  sx={{ fontSize: "1rem", color: colors.textGray }}
+                >
+                  %
+                </Typography>
+              )}
             </Typography>
-          </Typography>
-          <Typography color="text.secondary" sx={{ mt: 0.5 }}>
-            Check-ins do dia
-          </Typography>
-          <Typography variant="body2" sx={{ color: colors.greenSuccess }}>
-            +8% referente a ontem
-          </Typography>
-        </Box>
 
-        {/* Humor */}
-        <Box
-          sx={{
-            flex: 1,
-            p: 3,
-            borderRadius: "16px",
-            backgroundColor: colors.orangeBackground,
-            textAlign: "center",
-          }}
-        >
-          <MoodIcon
-            sx={{ color: colors.secondary, mb: 1, fontSize: "32px" }}
-          />
-          <Typography
-            variant="h4"
-            sx={{ fontWeight: 700, color: colors.text }}
-          >
-            {humor}
-          </Typography>
-          <Typography color="text.secondary" sx={{ mt: 0.5 }}>
-            Humor médio
-          </Typography>
-          <Typography variant="body2" sx={{ color: colors.greenSuccess }}>
-            +8% referente a ontem
-          </Typography>
-        </Box>
+            <Typography color="text.secondary" sx={{ mt: 0.5 }}>
+              {item.descricao}
+            </Typography>
 
-        {/* Participação */}
-        <Box
-          sx={{
-            flex: 1,
-            p: 3,
-            borderRadius: "16px",
-            backgroundColor: colors.purpleLight,
-            textAlign: "center",
-          }}
-        >
-          <GroupIcon
-            sx={{ color: colors.primary, mb: 1, fontSize: "32px" }}
-          />
-          <Typography
-            variant="h4"
-            sx={{ fontWeight: 700, color: colors.text }}
-          >
-            {participacao}%
-          </Typography>
-          <Typography color="text.secondary" sx={{ mt: 0.5 }}>
-            Taxa de participação
-          </Typography>
-          <Typography variant="body2" sx={{ color: colors.greenSuccess }}>
-            +8% referente a ontem
-          </Typography>
-        </Box>
+            <Typography
+              variant="body2"
+              sx={{
+                color:
+                  item.variacao >= 0
+                    ? colors.greenSuccess
+                    : colors.error,
+              }}
+            >
+              {item.variacao >= 0 ? "+" : ""}
+              {item.variacao}% referente a ontem
+            </Typography>
+          </Box>
+        ))}
       </Box>
     </Card>
   );
