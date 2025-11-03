@@ -5,7 +5,7 @@ export type ProfileData = {
     dominio: string;
     estado: string;
     cidade: string;
-    foto: string;
+   // foto: string;
 }
 
 export interface ProfileFormProps {

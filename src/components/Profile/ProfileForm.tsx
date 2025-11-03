@@ -5,7 +5,7 @@ import {
   Button,
   Typography,
   Grid,
-  Avatar,
+  //Avatar,
   Snackbar,
   Alert,
 } from "@mui/material";
@@ -19,7 +19,7 @@ export type ProfileData = {
   dominio?: string;
   estado?: string;
   cidade?: string;
-  foto?: string;
+  //foto?: string;
 };
 
 export type ProfileFormProps = {
@@ -99,7 +99,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
   onEditStart,
   onChange,
 }) => {
-  const { setNomeCompleto, setFotoPerfil } = useUser();
+  const { setNomeCompleto, /*setFotoPerfil */} = useUser();
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [firstName, secondName = ""] = profileData.nomeCompleto.split(" ");
 
@@ -108,7 +108,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
     onSave(e);
     localStorage.setItem("profileData", JSON.stringify(profileData));
     setNomeCompleto(profileData.nomeCompleto);
-    setFotoPerfil(profileData.foto || "");
+   // setFotoPerfil(profileData.foto || "");
     setOpenSnackbar(true);
   };
 
@@ -177,6 +177,8 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
           mt: { xs: 1, md: 5 },
         }}
       >
+
+        {/* UPLOAD FOTO 
         <input
           accept="image/*"
           id="upload-photo"
@@ -246,7 +248,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
               </Box>
             )}
           </Box>
-        </label>
+        </label>*/}
 
         <Typography
           variant="subtitle1"
