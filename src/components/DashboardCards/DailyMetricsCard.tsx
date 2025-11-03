@@ -77,7 +77,7 @@ export default function DailyMetricsCard() {
         }}
       >
         <CircularProgress />
-        <Typography sx={{ mt: 2 }}>Carregando métricas...</Typography>
+        <Typography sx={{ mt: 2 }}>Carregando Cards para as métricas Diárias...</Typography>
       </Card>
     );
   }
