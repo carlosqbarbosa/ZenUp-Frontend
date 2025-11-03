@@ -1,4 +1,13 @@
-import { Box, Typography, List, ListItem, ListItemButton, ListItemText, ListItemIcon, Avatar } from "@mui/material";
+import {
+  Box,
+  Typography,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  ListItemIcon,
+  // Avatar,
+} from "@mui/material";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonIcon from "@mui/icons-material/Person";
@@ -11,6 +20,13 @@ import { useEffect, useState } from "react";
 import LogoutModal from "../Modals/LogoutModal";
 import { useUser } from "../../context/UserContext";
 
+/** 
+ * Menus principais e secundários da barra lateral.
+ * Cada item contém:
+ * - name: nome exibido
+ * - path: rota do React Router
+ * - Icon: ícone do Material UI
+ */
 const primaryMenu = [
   { name: "Dashboard", path: "/dashboard", Icon: DashboardIcon },
   { name: "Perfil", path: "/profile", Icon: PersonIcon },
@@ -21,6 +37,7 @@ const secondaryMenu = [
   { name: "Sair", path: "/logout", Icon: LogoutIcon },
 ];
 
+// Cores e caminhos fixos
 const activeBgColor = "rgba(67, 53, 167, 0.1)";
 const reportsCardPath = "/reports";
 
@@ -30,9 +47,15 @@ export default function Sidebar() {
   const navigate = useNavigate();
   const { nomeCompleto, fotoPerfil, setNomeCompleto, setFotoPerfil } = useUser();
 
+  // Estado local do nome e (foto - comentado)
   const [localNome, setLocalNome] = useState(nomeCompleto || "");
-  const [localFoto, setLocalFoto] = useState(fotoPerfil || "");
+  // const [localFoto, setLocalFoto] = useState(fotoPerfil || "");
 
+  /**
+   * useEffect 1:
+   * - Recupera dados salvos no localStorage ("profileData")
+   * - Atualiza o contexto global (UserContext)
+   */
   useEffect(() => {
     const saved = localStorage.getItem("profileData");
     if (saved) {
@@ -41,18 +64,25 @@ export default function Sidebar() {
         setLocalNome(parsed.nomeCompleto);
         setNomeCompleto(parsed.nomeCompleto);
       }
-      if (parsed.foto) {
-        setLocalFoto(parsed.foto);
-        setFotoPerfil(parsed.foto);
-      }
+      // if (parsed.foto) {
+      //   setLocalFoto(parsed.foto);
+      //   setFotoPerfil(parsed.foto);
+      // }
     }
   }, [setNomeCompleto, setFotoPerfil]);
 
+  /**
+   * useEffect 2:
+   * - Atualiza o nome/foto locais sempre que o contexto mudar
+   */
   useEffect(() => {
     if (nomeCompleto) setLocalNome(nomeCompleto);
-    if (fotoPerfil) setLocalFoto(fotoPerfil);
+    // if (fotoPerfil) setLocalFoto(fotoPerfil);
   }, [nomeCompleto, fotoPerfil]);
 
+  /**
+   * Verifica se a rota atual é a mesma do item do menu
+   */
   const isActive = (path: string) => location.pathname === path;
 
   return (
@@ -69,10 +99,14 @@ export default function Sidebar() {
         position: "relative",
       }}
     >
-      {/* 1. Logo */}
+      {/* ======================================================
+          1. LOGO DA APLICAÇÃO
+          ====================================================== */}
       <img src={Logo} alt="ZenUp Logo" style={{ height: 60, marginBottom: 40 }} />
 
-      {/* 2. Menu Principal */}
+      {/* ======================================================
+          2. MENU PRINCIPAL (Dashboard, Perfil)
+          ====================================================== */}
       <List sx={{ width: "100%", padding: 0 }}>
         {primaryMenu.map((item) => (
           <ListItem key={item.name} disablePadding sx={{ mb: 1 }}>
@@ -111,7 +145,9 @@ export default function Sidebar() {
         ))}
       </List>
 
-      {/* 3. Card de Relatórios */}
+      {/* ======================================================
+          3. CARD DE RELATÓRIOS
+          ====================================================== */}
       <Box
         onClick={() => navigate("/reports")}
         sx={{
@@ -140,7 +176,6 @@ export default function Sidebar() {
             Relatórios
           </Typography>
         </Box>
-
         <Box
           sx={{
             backgroundColor: colors.primary,
@@ -161,7 +196,9 @@ export default function Sidebar() {
         </Box>
       </Box>
 
-      {/* 4. Menu Secundário */}
+      {/* ======================================================
+          4. MENU SECUNDÁRIO (Suporte, Sair)
+          ====================================================== */}
       <List sx={{ width: "100%", mt: "auto", borderTop: "1px solid #eee" }}>
         {secondaryMenu.map((item) => {
           const isLogout = item.name === "Sair";
@@ -191,7 +228,9 @@ export default function Sidebar() {
         })}
       </List>
 
-      {/* 5. Informações do Usuário */}
+      {/* ======================================================
+          5. INFORMAÇÕES DO USUÁRIO
+          ====================================================== */}
       <Box
         sx={{
           display: "flex",
@@ -202,21 +241,28 @@ export default function Sidebar() {
           mt: 2,
         }}
       >
+        {/* 
+        Avatar do usuário 
         <Avatar
           sx={{ width: 50, height: 50, mr: 2, borderRadius: "12px" }}
           src={localFoto || `https://i.pravatar.cc/150?u=${localNome}`}
           alt={localNome || "Usuário"}
-        />
+        /> 
+        */}
+
         <Box>
-          <Typography variant="body2" sx={{ color: colors.textGray }}>
-            Bem-vindo de volta!
-          </Typography>
-          <Typography sx={{ fontWeight: 600, color: colors.primary }}>
+        <Typography variant="body2" sx={{ color: colors.textGray }}>
+          Bem-vindo de volta{" "}
+          <span style={{ fontWeight: 600, color: colors.primary }}>
             {localNome || "Usuário"}
-          </Typography>
-        </Box>
+          </span>
+        </Typography>
+      </Box>
       </Box>
 
+      {/* ======================================================
+          6. MODAL DE LOGOUT
+          ====================================================== */}
       <LogoutModal open={isLogoutModalOpen} onClose={() => setIsLogoutModalOpen(false)} />
     </Box>
   );
