@@ -205,8 +205,8 @@ export default function DailyMetricsCard() {
                     : colors.error,
               }}
             >
-              {item.variacao >= 0 ? "+" : ""}
-              {item.variacao}% referente a ontem
+            {/*   {item.variacao >= 0 ? "+" : ""}
+             {item.variacao}% referente a ontem */}
             </Typography>
           </Box>
         ))}
