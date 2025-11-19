@@ -30,7 +30,7 @@ Graças ao uso do **Vite**, o tempo de desenvolvimento e build é extremamente o
 
 ---
 
-## 🛠 Stack Tecnológico
+## Stack Tecnológico
 
 O projeto utiliza as seguintes bibliotecas e ferramentas principais:
 
