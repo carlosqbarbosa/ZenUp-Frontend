@@ -1,4 +1,4 @@
-# ZenUp - Frontend 🧘‍♂️✨
+# ZenUp - Frontend 
 
 ![React 19](https://img.shields.io/badge/React-19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
@@ -9,7 +9,7 @@ O **ZenUp** é uma aplicação web moderna desenvolvida para oferecer uma experi
 
 ---
 
-## 📋 Índice
+##  Índice
 
 - [Sobre o Projeto](#-sobre-o-projeto)
 - [Stack Tecnológico](#-stack-tecnológico)
@@ -22,7 +22,7 @@ O **ZenUp** é uma aplicação web moderna desenvolvida para oferecer uma experi
 
 ---
 
-## 🚀 Sobre o Projeto
+##  Sobre o Projeto
 
 O frontend do ZenUp foi construído para ser rápido e escalável. A aplicação consome uma API externa e oferece aos usuários ferramentas visuais para gestão e análise de dados.
 
@@ -55,16 +55,16 @@ O projeto utiliza as seguintes bibliotecas e ferramentas principais:
 
 ---
 
-## ✨ Funcionalidades Principais
+##  Funcionalidades Principais
 
-* 📊 **Dashboards Interativos:** Visualização clara de dados utilizando gráficos do Recharts.
-* 📄 **Exportação de Relatórios:** Capacidade de gerar arquivos PDF das visualizações e relatórios (via jsPDF e html2canvas).
-* 🎨 **Design Responsivo:** Interface adaptável a mobile e desktop com componentes MUI.
-* 🛣️ **Roteamento Dinâmico:** Navegação fluida entre páginas sem recarregamento (SPA).
+*  **Dashboards Interativos:** Visualização clara de dados utilizando gráficos do Recharts.
+*  **Exportação de Relatórios:** Capacidade de gerar arquivos PDF das visualizações e relatórios (via jsPDF e html2canvas).
+*  **Design Responsivo:** Interface adaptável a mobile e desktop com componentes MUI.
+*  **Roteamento Dinâmico:** Navegação fluida entre páginas sem recarregamento (SPA).
 
 ---
 
-## ⚙️ Pré-requisitos
+##  Pré-requisitos
 
 Certifique-se de ter instalado em sua máquina:
 
@@ -73,7 +73,7 @@ Certifique-se de ter instalado em sua máquina:
 
 ---
 
-## 📦 Instalação
+##  Instalação
 
 1.  **Clone o repositório:**
     ```bash
@@ -98,7 +98,7 @@ Certifique-se de ter instalado em sua máquina:
 
 ---
 
-## ▶️ Scripts Disponíveis
+##  Scripts Disponíveis
 
 | Comando | Descrição |
 | :--- | :--- |
@@ -109,7 +109,7 @@ Certifique-se de ter instalado em sua máquina:
 
 ---
 
-## 📂 Estrutura do Projeto
+##  Estrutura do Projeto
 
 A estrutura de pastas segue o padrão sugerido pelo Vite:
 
