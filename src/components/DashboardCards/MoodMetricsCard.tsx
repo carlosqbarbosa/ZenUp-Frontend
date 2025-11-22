@@ -29,7 +29,6 @@ export default function MetricaPorHumor() {
     setIndexAtual((prev) => (prev === metricas.length - 1 ? 0 : prev + 1));
   };
 
-  // 🔽 Função de Download (baseada na ReportsPage)
   const handleDownload = async () => {
     try {
       const element = cardRef.current;
@@ -110,7 +109,7 @@ export default function MetricaPorHumor() {
 
   return (
     <Card
-      ref={cardRef} // 🔹 Elemento que será capturado no PDF
+      ref={cardRef} 
       sx={{
         borderRadius: "20px",
         p: 3,
@@ -158,7 +157,7 @@ export default function MetricaPorHumor() {
           <Button
             variant="outlined"
             startIcon={<DownloadIcon />}
-            onClick={handleDownload} // ⬅️ Baixar o PDF
+            onClick={handleDownload} 
             sx={{
               textTransform: "none",
               borderRadius: "12px",
@@ -196,7 +195,6 @@ export default function MetricaPorHumor() {
         </Box>
       </Box>
 
-      {/* Carrossel */}
       <Box
         sx={{
           position: "relative",
@@ -245,7 +243,6 @@ export default function MetricaPorHumor() {
         </IconButton>
       </Box>
 
-      {/* Indicadores */}
       <Box
         sx={{
           display: "flex",

@@ -97,7 +97,6 @@ export default function CheckinComparisonChart() {
           boxShadow: "0px 6px 20px rgba(0,0,0,0.05)",
         }}
       >
-        {/* Cabeçalho */}
         <Box
           sx={{
             display: "flex",
@@ -163,7 +162,6 @@ export default function CheckinComparisonChart() {
           </Stack>
         </Box>
 
-        {/* Gráfico */}
         <Box sx={{ width: "100%", height: 370 }}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart

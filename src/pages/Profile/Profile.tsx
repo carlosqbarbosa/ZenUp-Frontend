@@ -1,41 +1,65 @@
 import Layout from "../../components/Layout/Layout";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import type { ProfileData } from "../../types/profile";
 import ProfileForm from "../../components/Profile/ProfileForm";
 import ProfileHeader from "../../components/Profile/ProfileHeader";
-//import colors from "../../styles/colors";
 import { useUser } from "../../context/UserContext";
-import { usePersistentState } from "../../hooks/usePersistentState";
+import { useAuth } from "../../context/AuthContext";
 
 const initialProfileData: ProfileData = {
   nomeCompleto: "",
   email: "",
-  telefone: "",
   dominio: "",
-  estado: "",
-  cidade: "",
-  foto: "",
 };
 
 export default function Perfil() {
-  const [profileData, setProfileData] = usePersistentState<ProfileData>(
-    "profileData",
-    initialProfileData
-  );
-
-  const [isEditing, setIsEditing] = useState(false);
+  const { user } = useAuth();
   const { setNomeCompleto } = useUser();
+  const [isEditing, setIsEditing] = useState(false);
+  const [profileData, setProfileData] = useState<ProfileData>(initialProfileData);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement> | { target: { name: string; value: string } }
-  ) => {
-    const { name, value } = e.target;
-    setProfileData((prev) => ({ ...prev, [name]: value }));
+  useEffect(() => {
+    if (user) {
+      const savedProfile = localStorage.getItem("profileData");
+      
+      if (savedProfile) {
+        try {
+          const parsedProfile = JSON.parse(savedProfile);
+          setProfileData(parsedProfile);
+        } catch (error) {
+          console.error("Erro ao carregar perfil do localStorage:", error);
+          setProfileData({
+            nomeCompleto: user.nome_funcionario || "",
+            email: user.email || "",
+            dominio: "",
+          });
+        }
+      } else {
+        setProfileData({
+          nomeCompleto: user.nome_funcionario || "",
+          email: user.email || "",
+          dominio: "",
+        });
+        
+        localStorage.setItem("profileData", JSON.stringify({
+          nomeCompleto: user.nome_funcionario || "",
+          email: user.email || "",
+          dominio: "",
+        }));
+      }
+    }
+  }, [user]);
 
-    if (name === "nomeCompleto") setNomeCompleto(value);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const updated = { ...profileData, [e.target.name]: e.target.value };
+    setProfileData(updated);
+
+    if (e.target.name === "nomeCompleto") {
+      setNomeCompleto(e.target.value);   
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -44,6 +68,18 @@ export default function Perfil() {
   };
 
   const handleCancel = () => {
+    if (user) {
+      const savedProfile = localStorage.getItem("profileData");
+      if (savedProfile) {
+        setProfileData(JSON.parse(savedProfile));
+      } else {
+        setProfileData({
+          nomeCompleto: user.nome_funcionario || "",
+          email: user.email || "",
+          dominio: "",
+        });
+      }
+    }
     setIsEditing(false);
   };
 
@@ -71,10 +107,7 @@ export default function Perfil() {
             gap: { xs: 3, md: 4 },
           }}
         >
-          {/* Cabeçalho do perfil (foto e título) */}
           <ProfileHeader />
-
-          {/*  Layout responsivo: formulário e imagem lado a lado no desktop */}
           <Grid
             container
             spacing={4}
@@ -86,7 +119,6 @@ export default function Perfil() {
               flexWrap: "wrap",
             }}
           >
-            {/*  Formulário ocupa 100% no mobile e 8/12 no desktop */}
             <Grid item xs={12} md={8} sx={{ width: "100%", minWidth: 0 }}>
               <ProfileForm
                 profileData={profileData}
@@ -97,8 +129,6 @@ export default function Perfil() {
                 onChange={handleChange}
               />
             </Grid>
-
-            {/*  Foto de perfil e botão de edição (se existirem) ficam ao lado */}
             <Grid
               item
               xs={12}

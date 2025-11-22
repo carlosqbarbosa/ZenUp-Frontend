@@ -6,7 +6,6 @@ import {
   ListItemButton,
   ListItemText,
   ListItemIcon,
-  // Avatar,
 } from "@mui/material";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -16,17 +15,13 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import DescriptionIcon from "@mui/icons-material/Description";
 import colors from "../../styles/colors";
 import Logo from "../../assets/LogoRoxa.png";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react"; 
 import LogoutModal from "../Modals/LogoutModal";
-import { useUser } from "../../context/UserContext";
+import { useUser } from "../../context/UserContext"; 
 
-/** 
- * Menus principais e secundários da barra lateral.
- * Cada item contém:
- * - name: nome exibido
- * - path: rota do React Router
- * - Icon: ícone do Material UI
- */
+
+import { useAuth } from "../../context/AuthContext";
+
 const primaryMenu = [
   { name: "Dashboard", path: "/dashboard", Icon: DashboardIcon },
   { name: "Perfil", path: "/profile", Icon: PersonIcon },
@@ -37,7 +32,6 @@ const secondaryMenu = [
   { name: "Sair", path: "/logout", Icon: LogoutIcon },
 ];
 
-// Cores e caminhos fixos
 const activeBgColor = "rgba(67, 53, 167, 0.1)";
 const reportsCardPath = "/reports";
 
@@ -45,68 +39,38 @@ export default function Sidebar() {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { nomeCompleto, fotoPerfil, setNomeCompleto, setFotoPerfil } = useUser();
 
-  // Estado local do nome e (foto - comentado)
-  const [localNome, setLocalNome] = useState(nomeCompleto || "");
-  // const [localFoto, setLocalFoto] = useState(fotoPerfil || "");
+  const { user, logout } = useAuth();
 
-  /**
-   * useEffect 1:
-   * - Recupera dados salvos no localStorage ("profileData")
-   * - Atualiza o contexto global (UserContext)
-   */
+  const { nomeCompleto, setNomeCompleto } = useUser();
+
+  const userName = nomeCompleto || user?.nome_funcionario || "Usuário";
+
   useEffect(() => {
-    const saved = localStorage.getItem("profileData");
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      if (parsed.nomeCompleto) {
-        setLocalNome(parsed.nomeCompleto);
-        setNomeCompleto(parsed.nomeCompleto);
-      }
-      // if (parsed.foto) {
-      //   setLocalFoto(parsed.foto);
-      //   setFotoPerfil(parsed.foto);
-      // }
+    if (user?.nome_funcionario && nomeCompleto !== user.nome_funcionario) {
+      setNomeCompleto(user.nome_funcionario);
     }
-  }, [setNomeCompleto, setFotoPerfil]);
+  }, [user, nomeCompleto, setNomeCompleto]);
 
-  /**
-   * useEffect 2:
-   * - Atualiza o nome/foto locais sempre que o contexto mudar
-   */
-  useEffect(() => {
-    if (nomeCompleto) setLocalNome(nomeCompleto);
-    // if (fotoPerfil) setLocalFoto(fotoPerfil);
-  }, [nomeCompleto, fotoPerfil]);
-
-  /**
-   * Verifica se a rota atual é a mesma do item do menu
-   */
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <Box
-      sx={{
-        width: 220,
-        minWidth: 220,
-        backgroundColor: "#fff",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: 3,
-        borderRight: "1px solid #eee",
-        position: "relative",
-      }}
-    >
-      {/* ======================================================
-          1. LOGO DA APLICAÇÃO
-          ====================================================== */}
-      <img src={Logo} alt="ZenUp Logo" style={{ height: 60, marginBottom: 40 }} />
+<Box
+  sx={{
+    width: 220,
+    minWidth: 220,
+    backgroundColor: "#fff",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: 3,
+    borderRight: "1px solid #eee",
+    position: "relative",
+  }}
+>
 
-      {/* ======================================================
-          2. MENU PRINCIPAL (Dashboard, Perfil)
-          ====================================================== */}
+ <img src={Logo} alt="ZenUp Logo" style={{ height: 60, marginBottom: 40 }} />
+
       <List sx={{ width: "100%", padding: 0 }}>
         {primaryMenu.map((item) => (
           <ListItem key={item.name} disablePadding sx={{ mb: 1 }}>
@@ -145,9 +109,6 @@ export default function Sidebar() {
         ))}
       </List>
 
-      {/* ======================================================
-          3. CARD DE RELATÓRIOS
-          ====================================================== */}
       <Box
         onClick={() => navigate("/reports")}
         sx={{
@@ -196,74 +157,60 @@ export default function Sidebar() {
         </Box>
       </Box>
 
-      {/* ======================================================
-          4. MENU SECUNDÁRIO (Suporte, Sair)
-          ====================================================== */}
-      <List sx={{ width: "100%", mt: "auto", borderTop: "1px solid #eee" }}>
-        {secondaryMenu.map((item) => {
-          const isLogout = item.name === "Sair";
-          return (
-            <ListItem key={item.name} disablePadding>
-              <ListItemButton
-                component={isLogout ? Box : Link}
-                to={isLogout ? undefined : item.path}
-                onClick={isLogout ? () => setIsLogoutModalOpen(true) : undefined}
-                sx={{
-                  borderRadius: "12px",
-                  padding: "10px 15px",
-                  "&:hover": { backgroundColor: "#f0f0f0" },
-                }}
-              >
-                <ListItemIcon sx={{ minWidth: 40, color: colors.textGray }}>
-                  <item.Icon />
-                </ListItemIcon>
-                <ListItemText
-                  primary={
-                    <Typography sx={{ fontWeight: 500, color: colors.textGray }}>{item.name}</Typography>
-                  }
-                />
-              </ListItemButton>
-            </ListItem>
-          );
-        })}
-      </List>
+  <List sx={{ width: "100%", mt: "auto", borderTop: "1px solid #eee" }}>
+    {secondaryMenu.map((item) => {
+      const isLogout = item.name === "Sair";
+      return (
+        <ListItem key={item.name} disablePadding>
+          <ListItemButton
+            component={isLogout ? Box : Link}
+            to={isLogout ? undefined : item.path}
+            onClick={isLogout ? () => setIsLogoutModalOpen(true) : undefined}
+            sx={{
+              borderRadius: "12px",
+              padding: "10px 15px",
+              "&:hover": { backgroundColor: "#f0f0f0" },
+            }}
+          >
+            <ListItemIcon sx={{ minWidth: 40, color: colors.textGray }}>
+              <item.Icon />
+            </ListItemIcon>
+            <ListItemText
+              primary={
+                <Typography sx={{ fontWeight: 500, color: colors.textGray }}>{item.name}</Typography>
+              }
+            />
+          </ListItemButton>
+        </ListItem>
+      );
+    })}
+  </List>
+  <Box
+    sx={{
+      display: "flex",
+      alignItems: "center",
+      padding: "16px",
+      borderTop: "1px solid #eee",
+      width: "100%",
+      mt: 2,
+    }}
+  >
 
-      {/* ======================================================
-          5. INFORMAÇÕES DO USUÁRIO
-          ====================================================== */}
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          padding: "16px",
-          borderTop: "1px solid #eee",
-          width: "100%",
-          mt: 2,
-        }}
-      >
-        {/* 
-        Avatar do usuário 
-        <Avatar
-          sx={{ width: 50, height: 50, mr: 2, borderRadius: "12px" }}
-          src={localFoto || `https://i.pravatar.cc/150?u=${localNome}`}
-          alt={localNome || "Usuário"}
-        /> 
-        */}
-
-        <Box>
-        <Typography variant="body2" sx={{ color: colors.textGray }}>
+         <Box>
+      <Typography variant="body2" sx={{ color: colors.textGray }}>
           Bem-vindo de volta{" "}
           <span style={{ fontWeight: 600, color: colors.primary }}>
-            {localNome || "Usuário"}
+            {userName} 
           </span>
-        </Typography>
-      </Box>
-      </Box>
+      </Typography>
+    </Box>
+</Box>
 
-      {/* ======================================================
-          6. MODAL DE LOGOUT
-          ====================================================== */}
-      <LogoutModal open={isLogoutModalOpen} onClose={() => setIsLogoutModalOpen(false)} />
+      <LogoutModal 
+        open={isLogoutModalOpen} 
+        onClose={() => setIsLogoutModalOpen(false)} 
+        onConfirmLogout={logout}
+      />
     </Box>
   );
 }

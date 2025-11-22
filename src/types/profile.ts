@@ -1,11 +1,7 @@
 export type ProfileData = {
     nomeCompleto: string;
     email: string;
-    telefone: string;
     dominio: string;
-    estado: string;
-    cidade: string;
-   // foto: string;
 }
 
 export interface ProfileFormProps {

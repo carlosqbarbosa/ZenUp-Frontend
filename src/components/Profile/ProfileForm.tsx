@@ -5,21 +5,17 @@ import {
   Button,
   Typography,
   Grid,
-  //Avatar,
   Snackbar,
   Alert,
 } from "@mui/material";
 import colors from "../../styles/colors";
 import { useUser } from "../../context/UserContext";
+import { useAuth } from "../../context/AuthContext";
 
 export type ProfileData = {
   nomeCompleto: string;
-  telefone: string;
   email: string;
   dominio?: string;
-  estado?: string;
-  cidade?: string;
-  //foto?: string;
 };
 
 export type ProfileFormProps = {
@@ -32,7 +28,6 @@ export type ProfileFormProps = {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
 };
-
 
 const getTextFieldStyle = (isEditing: boolean) => ({
   "& .MuiOutlinedInput-root": {
@@ -99,16 +94,24 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
   onEditStart,
   onChange,
 }) => {
-  const { setNomeCompleto, /*setFotoPerfil */} = useUser();
+  const { setNomeCompleto } = useUser();
+  const { updateUser } = useAuth();
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [firstName, secondName = ""] = profileData.nomeCompleto.split(" ");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     onSave(e);
-    localStorage.setItem("profileData", JSON.stringify(profileData));
+
     setNomeCompleto(profileData.nomeCompleto);
-   // setFotoPerfil(profileData.foto || "");
+    updateUser({ 
+      nome_funcionario: profileData.nomeCompleto,
+      email: profileData.email 
+    });
+
+    localStorage.setItem("profileData", JSON.stringify(profileData));
+
     setOpenSnackbar(true);
   };
 
@@ -129,7 +132,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         alignItems: "flex-start",
       }}
     >
-      {/* COLUNA ESQUERDA */}
       <Box sx={{ flex: 1 }}>
         <Typography variant="h6" sx={{ fontWeight: 600, color: colors.primary }}>
           Informações Pessoais
@@ -138,14 +140,11 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
           Suas informações básicas e de contato.
         </Typography>
 
-        <Grid container spacing={4}>
+        <Grid container spacing={3}>
           {[
             { label: "Nome completo", name: "nomeCompleto" },
-            { label: "Telefone", name: "telefone" },
             { label: "Email", name: "email", type: "email" },
-            { label: "Domínio", name: "dominio" },
-            { label: "Estado", name: "estado" },
-            { label: "Cidade", name: "cidade" },
+            { label: "Domínio", name: "dominio" }
           ].map((field) => (
             <Grid key={field.name} item xs={12} sm={6}>
               <InputWrapper label={field.label}>
@@ -166,7 +165,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         </Grid>
       </Box>
 
-      {/* COLUNA DIREITA */}
       <Box
         sx={{
           display: "flex",
@@ -177,79 +175,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
           mt: { xs: 1, md: 5 },
         }}
       >
-
-        {/* UPLOAD FOTO 
-        <input
-          accept="image/*"
-          id="upload-photo"
-          type="file"
-          style={{ display: "none" }}
-          onChange={(e) => {
-            const file = e.target.files?.[0];
-            if (file) {
-              const reader = new FileReader();
-              reader.onloadend = () => {
-                onChange({
-                  target: { name: "foto", value: reader.result as string },
-                } as any);
-              };
-              reader.readAsDataURL(file);
-            }
-          }}
-          disabled={!isEditing}
-        />
-
-        <label htmlFor="upload-photo">
-          <Box
-            sx={{
-              position: "relative",
-              cursor: isEditing ? "pointer" : "default",
-              "&:hover .overlay": isEditing
-                ? { opacity: 1, transition: "opacity 0.3s" }
-                : {},
-            }}
-          >
-            <Avatar
-              src={
-                profileData.foto ||
-                `https://i.pravatar.cc/300?u=${profileData.nomeCompleto}`
-              }
-              alt={profileData.nomeCompleto}
-              sx={{
-                width: 160,
-                height: 160,
-                borderRadius: "16px",
-                mb: 2,
-                boxShadow: "0px 2px 6px rgba(0,0,0,0.08)",
-              }}
-            />
-            {isEditing && (
-              <Box
-                className="overlay"
-                sx={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                  backgroundColor: "rgba(0, 0, 0, 0.4)",
-                  color: "#fff",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: "16px",
-                  opacity: 0,
-                  transition: "opacity 0.3s",
-                  fontSize: "0.9rem",
-                  fontWeight: 500,
-                }}
-              >
-                Alterar foto
-              </Box>
-            )}
-          </Box>
-        </label>*/}
-
         <Typography
           variant="subtitle1"
           sx={{
@@ -322,7 +247,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         )}
       </Box>
 
-      {/* SNACKBAR */}
       <Snackbar
         open={openSnackbar}
         autoHideDuration={4000}
@@ -342,5 +266,3 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
 };
 
 export default ProfileForm;
-
-

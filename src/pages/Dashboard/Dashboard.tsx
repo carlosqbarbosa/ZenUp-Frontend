@@ -21,7 +21,6 @@ export default function Dashboard() {
           boxSizing: "border-box",
         }}
       >
-        {/* Cabeçalho */}
         <Box>
           <Typography
             variant="h4"
@@ -45,7 +44,6 @@ export default function Dashboard() {
           </Typography>
         </Box>
 
-        {/* Linha 1: Métricas e Sugestões */}
         <Box
           sx={{
             display: "grid",
@@ -57,7 +55,6 @@ export default function Dashboard() {
           <SuggestionsCard />
         </Box>
 
-        {/* Linha 2: Gráfico e Métrica por Humor */}
         <Box
           sx={{
             display: "grid",

@@ -12,7 +12,9 @@ import {
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useNavigate } from "react-router-dom";
 import colors from "../../styles/colors";
+import { useAuth } from "../../context/AuthContext";
 
 interface FormLoginProps {
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
@@ -24,6 +26,9 @@ const FormLogin: React.FC<FormLoginProps> = ({ onSubmit, onRegisterClick }) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [loading, setLoading] = React.useState(false);
+
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -37,32 +42,24 @@ const FormLogin: React.FC<FormLoginProps> = ({ onSubmit, onRegisterClick }) => {
       alert("Preencha todos os campos!");
       return;
     }
-    onSubmit(e);
-
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:3000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, senha: password }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        console.log("Login bem-sucedido:", data);
-        alert("Login realizado com sucesso!");
-        // Exemplo: salvar token no localStorage
-        localStorage.setItem("token", data.token);
-        // Redirecionar ou mudar tela aqui
-      } else {
-        alert(data.error || "E-mail ou senha incorretos!");
-      }
-    } catch (error) {
-      console.error("Erro ao conectar com o servidor:", error);
-      alert("Erro de conexão com o servidor!");
+      await login(email, password);
+      onSubmit(e);
+    } catch (error: any) {
+      console.error("Erro no login:", error);
+      const errorMessage = error.response?.data?.message || "E-mail ou senha incorretos!";
+      alert(errorMessage);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleRegisterClick = () => {
+    if (onRegisterClick) {
+      onRegisterClick();
+    } else {
+      navigate("/register");
     }
   };
 
@@ -155,8 +152,13 @@ const FormLogin: React.FC<FormLoginProps> = ({ onSubmit, onRegisterClick }) => {
       >
         Ainda não possui conta?{" "}
         <span
-          style={{ color: colors.secondary, cursor: "pointer" }}
-          onClick={onRegisterClick}
+          style={{ 
+            color: colors.secondary, 
+            cursor: "pointer",
+            fontWeight: 600,
+            textDecoration: "underline"
+          }}
+          onClick={handleRegisterClick}
         >
           Cadastre-se
         </span>

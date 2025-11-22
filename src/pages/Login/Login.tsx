@@ -10,21 +10,19 @@ import colors from "../../styles/colors";
 import LogoRoxa from "../../assets/LogoRoxa.png";
 import LoginImg from "../../assets/LoginImg.png";
 
-
-interface LoginProps {
-  onRegisterClick?: () => void;
-}
-
-export default function LoginPage({ onRegisterClick }: LoginProps) {
+export default function LoginPage() {
   const navigate = useNavigate();
 
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-     navigate("/dashboard");
+    navigate("/dashboard");
+  };
+
+  const handleRegisterClick = () => {
+    navigate("/register");
   };
 
   return (
-    // CONTÊINER PRINCIPAL
     <Box
       sx={{
         display: "flex",
@@ -36,7 +34,6 @@ export default function LoginPage({ onRegisterClick }: LoginProps) {
         backgroundColor: "#fff",
       }}
     >
-      {/* --- Lado esquerdo: texto + formulário --- */}
       <Box
         sx={{
           width: { xs: "100%", md: "50%" },
@@ -50,7 +47,6 @@ export default function LoginPage({ onRegisterClick }: LoginProps) {
           flexGrow: 1, 
         }}
       >
-        {/* Contêiner INTERNO para o Conteúdo */}
         <Box
           sx={{
             display: "flex",
@@ -61,7 +57,6 @@ export default function LoginPage({ onRegisterClick }: LoginProps) {
             pr: 2, 
           }}
         >
-          {/* LOGOTIPO, TEXTOS, FORMULÁRIO */}
           <img
             src={LogoRoxa}
             alt="ZenUp Logo"
@@ -104,12 +99,13 @@ export default function LoginPage({ onRegisterClick }: LoginProps) {
             Faça o login da sua conta
           </Typography>
 
-          {/* Chamada ao FormLogin */}
-          <FormLogin onSubmit={handleLogin} onRegisterClick={onRegisterClick} />
+          <FormLogin 
+            onSubmit={handleLogin} 
+            onRegisterClick={handleRegisterClick} 
+          />
         </Box>
       </Box>
 
-      {/* --- Lado direito: imagem --- */}
       <Box
         sx={{
           display: { xs: "none", md: "flex" },

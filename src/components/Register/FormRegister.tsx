@@ -14,6 +14,9 @@ import {
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import colors from "../../styles/colors";
+import { register } from "../../services/userService";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const FormRegister = () => {
   const [name, setName] = useState("");
@@ -26,7 +29,9 @@ const FormRegister = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  // Controle de exibição de senha
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowConfirmPassword = () =>
     setShowConfirmPassword((show) => !show);
@@ -40,7 +45,6 @@ const FormRegister = () => {
   const passwordsDoNotMatch =
     confirmPassword.length > 0 && password !== confirmPassword;
 
-  // Função que conecta com o backend
   const handleRegister = async () => {
     if (!name || !email || !domain || !password || !confirmPassword) {
       alert("Preencha todos os campos!");
@@ -58,23 +62,17 @@ const FormRegister = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/api/users/usuarios", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          email: `${email}${domain}`,
-          password,
-        }),
+      const fullEmail = `${email}${domain}`;
+
+      await register({
+        nome: name,
+        email: fullEmail,
+        password: password,
       });
 
-      if (!response.ok) {
-        throw new Error("Erro ao cadastrar usuário");
-      }
+      await login(fullEmail, password);
 
-      const data = await response.json();
-      console.log("Usuário cadastrado:", data);
-      alert("Cadastro realizado com sucesso!");
+      navigate("/dashboard");
 
       setName("");
       setEmail("");
@@ -82,9 +80,13 @@ const FormRegister = () => {
       setPassword("");
       setConfirmPassword("");
       setAcceptedTerms(false);
-    } catch (error) {
-      console.error(error);
-      alert("Falha ao conectar com o servidor.");
+    } catch (error: any) {
+      console.error("Erro no cadastro:", error);
+
+      const errorMessage =
+        error.response?.data?.message ||
+        "Falha ao conectar ou cadastrar. Tente novamente.";
+      alert(errorMessage);
     }
   };
 
@@ -98,7 +100,6 @@ const FormRegister = () => {
         width: "100%",
       }}
     >
-      {/* Nome completo */}
       <TextField
         fullWidth
         label="Nome completo"
@@ -110,7 +111,6 @@ const FormRegister = () => {
         }}
       />
 
-      {/* Email + Domínio */}
       <Box sx={{ display: "flex", gap: 1.5, width: "100%" }}>
         <TextField
           label="Email"
@@ -134,7 +134,6 @@ const FormRegister = () => {
         />
       </Box>
 
-      {/* Senha */}
       <FormControl fullWidth variant="outlined">
         <InputLabel htmlFor="password">Senha</InputLabel>
         <OutlinedInput
@@ -159,7 +158,6 @@ const FormRegister = () => {
         />
       </FormControl>
 
-      {/* Confirmar senha */}
       <FormControl fullWidth variant="outlined">
         <InputLabel htmlFor="confirm-password">Confirmar Senha</InputLabel>
         <OutlinedInput
@@ -184,7 +182,6 @@ const FormRegister = () => {
         />
       </FormControl>
 
-      {/* Aviso de senhas não coincidentes */}
       {passwordsDoNotMatch && (
         <Typography
           variant="caption"
@@ -199,7 +196,6 @@ const FormRegister = () => {
         </Typography>
       )}
 
-      {/* Checkbox */}
       <Box
         sx={{
           display: "flex",
@@ -230,20 +226,19 @@ const FormRegister = () => {
         </Typography>
       </Box>
 
-      {/* Botão de envio */}
       <Button
         fullWidth
         variant="contained"
         onClick={handleRegister}
         sx={{
           backgroundColor: colors.primary,
-            borderRadius: "12px",
-            height: 48,
-            textTransform: "none",
-            fontWeight: 600,
-            mt: 1,
-            boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.1)",
-            "&:hover": { backgroundColor: colors.primaryDark },
+          borderRadius: "12px",
+          height: 48,
+          textTransform: "none",
+          fontWeight: 600,
+          mt: 1,
+          boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.1)",
+          "&:hover": { backgroundColor: colors.primaryDark },
         }}
       >
         Cadastrar
@@ -253,4 +248,3 @@ const FormRegister = () => {
 };
 
 export default FormRegister;
-

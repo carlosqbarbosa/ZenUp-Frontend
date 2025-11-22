@@ -1,58 +1,66 @@
-import { BrowserRouter, Routes, Route, useNavigate, Navigate } from "react-router-dom";
-import LoginPage from "./pages/Login/Login";
-import Register from "./pages/Register/Register";
-import DashboardPage from "./pages/Dashboard/Dashboard";
-import Perfil from "./pages/Profile/Profile";
-import Faq from "./pages/FAQ/FAQ";
-import ReportsPage from "./pages/Reports/Reports";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
 import { UserProvider } from "./context/UserContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 
-
-
-function LoginWithNavigate() {
-  const navigate = useNavigate();
-
-  return (
-    <LoginPage
-      onRegisterClick={() => navigate("/register")}
-    />
-  );
-}
-
-function RegisterWithNavigate() {
-  const navigate = useNavigate();
-  return <Register onBackToLogin={() => navigate("/")} />;
-}
+import Login from "../src/pages/Login/Login";
+import Register from "../src/pages/Register/Register";
+import Dashboard from "../src/pages/Dashboard/Dashboard";
+import Profile from "../src/pages/Profile/Profile";
+import Reports from "../src/pages/Reports/Reports";
+import FAQ from "../src/pages/FAQ/FAQ";
 
 function App() {
   return (
-    <UserProvider>
-      <BrowserRouter>
-      <Routes>
-        {/* Redireciona /login → / */}
-        <Route path="/login" element={<Navigate to="/" />} />
+    <BrowserRouter>
+      <AuthProvider>
+        <UserProvider>
+          <Routes>
+            {/* Rota pública */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
 
-        {/* Login (tela inicial) */}
-        <Route path="/" element={<LoginWithNavigate />} />
+            {/* Rotas protegidas */}
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/reports"
+              element={
+                <ProtectedRoute>
+                  <Reports />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/faq"
+              element={
+                <ProtectedRoute>
+                  <FAQ />
+                </ProtectedRoute>
+              }
+            />
 
-        {/* Register com navegação */}
-        <Route path="/register" element={<RegisterWithNavigate />} />
-
-        {/* Outras páginas */}
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/profile" element={<Perfil />} />
-        <Route path="/faq" element={<Faq />} />
-        {/*<Route path="/logout" element={<Logout />} /> */}
-
-        {/*Para baixar relatórios*/}
-        <Route path="/reports" element={<ReportsPage />} />
-
-        {/* Página 404 */}
-        <Route path="*" element={<h1>404 - Página não encontrada</h1>} />
-      </Routes>
+            {/* Rota padrão */}
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          </Routes>
+        </UserProvider>
+      </AuthProvider>
     </BrowserRouter>
-    </UserProvider>
-    
   );
 }
 

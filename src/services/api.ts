@@ -2,11 +2,10 @@ import axios from "axios";
 
 
 export const api = axios.create({
-  baseURL: "http://localhost:3001/api", 
+  baseURL: "http://localhost:3000/api", 
   timeout: 8000, 
 });
 
-// Intercepta TODAS as requisições e adiciona o token se existir
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
@@ -17,7 +16,7 @@ api.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 );
-// Intercepta TODAS as respostas para tratar erros globalmente
+
 api.interceptors.response.use(
   (response) => response,
   (error) => {

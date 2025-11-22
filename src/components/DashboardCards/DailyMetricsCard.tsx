@@ -38,7 +38,6 @@ export default function DailyMetricsCard() {
     }
   };
 
-  // Busca os dados (da API ou mock)
   useEffect(() => {
     const fetchMetrics = async () => {
       try {
@@ -92,7 +91,6 @@ export default function DailyMetricsCard() {
         boxShadow: "0px 4px 20px rgba(0,0,0,0.05)",
       }}
     >
-      {/* Header */}
       <Box
         sx={{
           display: "flex",
@@ -155,7 +153,6 @@ export default function DailyMetricsCard() {
           </Stack>
       </Box>
 
-      {/* Cards */}
       <Box
         sx={{
           display: "flex",
@@ -205,8 +202,6 @@ export default function DailyMetricsCard() {
                     : colors.error,
               }}
             >
-            {/*   {item.variacao >= 0 ? "+" : ""}
-             {item.variacao}% referente a ontem */}
             </Typography>
           </Box>
         ))}
