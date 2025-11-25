@@ -22,7 +22,7 @@ const FormRegister = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [domain, setDomain] = useState("");
-  const [password, setPassword] = useState("");
+  const [senha, setSenha] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [acceptedTerms, setAcceptedTerms] = useState(false);
 
@@ -43,52 +43,58 @@ const FormRegister = () => {
   };
 
   const passwordsDoNotMatch =
-    confirmPassword.length > 0 && password !== confirmPassword;
+    confirmPassword.length > 0 && senha !== confirmPassword;
 
   const handleRegister = async () => {
-    if (!name || !email || !domain || !password || !confirmPassword) {
-      alert("Preencha todos os campos!");
-      return;
-    }
+  if (!name || !email || !domain || !senha || !confirmPassword) {
+    alert("Preencha todos os campos!");
+    return;
+  }
 
-    if (password !== confirmPassword) {
-      alert("As senhas não coincidem!");
-      return;
-    }
+  if (senha !== confirmPassword) {
+    alert("As senhas não coincidem!");
+    return;
+  }
 
-    if (!acceptedTerms) {
-      alert("Você precisa aceitar os termos e condições.");
-      return;
-    }
+  if (!acceptedTerms) {
+    alert("Você precisa aceitar os termos e condições.");
+    return;
+  }
 
-    try {
-      const fullEmail = `${email}${domain}`;
+  try {
+    const fullEmail = `${email}${domain}`;
 
-      await register({
-        nome: name,
-        email: fullEmail,
-        password: password,
-      });
+    // Registra o usuário
+    await register({
+      nome: name,
+      email: fullEmail,
+      senha: senha,
+      tipo_usuario: "colaborador",
+      dominio: domain, 
+    });
 
-      await login(fullEmail, password);
+    // Faz login automático
+    await login(fullEmail, senha);
 
-      navigate("/dashboard");
+    navigate("/dashboard");
 
-      setName("");
-      setEmail("");
-      setDomain("");
-      setPassword("");
-      setConfirmPassword("");
-      setAcceptedTerms(false);
-    } catch (error: any) {
-      console.error("Erro no cadastro:", error);
+    setName("");
+    setEmail("");
+    setDomain("");
+    setSenha("");
+    setConfirmPassword("");
+    setAcceptedTerms(false);
+  } catch (error: any) {
+    console.error("Erro no cadastro:", error);
 
-      const errorMessage =
-        error.response?.data?.message ||
-        "Falha ao conectar ou cadastrar. Tente novamente.";
-      alert(errorMessage);
-    }
-  };
+    const errorMessage =
+      error.response?.data?.erro ||
+      error.response?.data?.message ||
+      "Falha ao cadastrar. Tente novamente.";
+    
+    alert(errorMessage);
+  }
+};
 
   return (
     <Box
@@ -140,8 +146,8 @@ const FormRegister = () => {
           id="password"
           type={showPassword ? "text" : "password"}
           placeholder="********"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={senha}
+          onChange={(e) => setSenha(e.target.value)}
           sx={{ borderRadius: "10px" }}
           endAdornment={
             <InputAdornment position="end">
@@ -162,7 +168,7 @@ const FormRegister = () => {
         <InputLabel htmlFor="confirm-password">Confirmar Senha</InputLabel>
         <OutlinedInput
           id="confirm-password"
-          type={showConfirmPassword ? "text" : "password"}
+          type={showConfirmPassword ? "text" : "senha"}
           placeholder="********"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}

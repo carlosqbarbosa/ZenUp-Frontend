@@ -1,4 +1,4 @@
-import { api } from "./api";
+import api from "./api";
 import { dailyMetricsMock } from "../data/dailyMetrics";
 
 export interface DailyMetric {

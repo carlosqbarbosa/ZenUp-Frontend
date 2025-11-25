@@ -1,4 +1,4 @@
-import {api} from "./api";
+import api from "./api";
 
 export async function getIndicadoresEmpresa(id_empresa: number) {
   const response = await api.get(`/dashboard/empresas/${id_empresa}/indicadores`);

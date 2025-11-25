@@ -6,11 +6,7 @@ import LogoRoxa from "../../assets/LogoRoxa.png";
 import FormRegister from "../../components/Register/FormRegister";
 import * as React from "react"; 
 
-interface RegisterProps {
-  onBackToLogin?: () => void;
-}
-
-export default function RegisterPage({ onBackToLogin }: RegisterProps) {
+export default function RegisterPage() {
   const navigate = useNavigate(); 
 
   const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
@@ -32,7 +28,6 @@ export default function RegisterPage({ onBackToLogin }: RegisterProps) {
         backgroundColor: "#fff",
       }}
     >
-      {/* --- Lado esquerdo: imagem --- */}
       <Box
         sx={{
           display: { xs: "none", md: "flex" },
@@ -55,7 +50,6 @@ export default function RegisterPage({ onBackToLogin }: RegisterProps) {
         />
       </Box>
 
-      {/* --- Lado direito: formulário --- */}
       <Box
         sx={{
           width: { xs: "100%", md: "50%" },
@@ -69,7 +63,6 @@ export default function RegisterPage({ onBackToLogin }: RegisterProps) {
           py: { xs: 4, md: 0 },
         }}
       >
-        {/* Contêiner interno que rola (para responsividade móvel) */}
         <Box
           sx={{
             display: "flex",
@@ -125,25 +118,6 @@ export default function RegisterPage({ onBackToLogin }: RegisterProps) {
             }}
           >
             <FormRegister />
-
-            {/* Botão de cadastro 
-            <Button
-              variant="contained"
-              fullWidth 
-              type="submit"
-              sx={{
-                backgroundColor: colors.primary,
-                borderRadius: "12px",
-                height: 48,
-                textTransform: "none",
-                fontWeight: 600,
-                mt: 2,
-                boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.1)",
-                "&:hover": { backgroundColor: "#1d0879" },
-              }}
-            >
-              Entrar
-            </Button>*/}
           </Box>
 
           <Typography
@@ -152,14 +126,18 @@ export default function RegisterPage({ onBackToLogin }: RegisterProps) {
               textAlign: "center",
               mt: 2,
               color: colors.textGray,
-              width: "100%", 
-              pb: { xs: 4, md: 0 } 
+              width: "100%",
+              pb: { xs: 4, md: 0 },
             }}
           >
             Já possui conta?{" "}
             <span
-              style={{ color: colors.secondary, cursor: "pointer" }}
-              onClick={onBackToLogin}
+              style={{
+                color: colors.secondary,
+                cursor: "pointer",
+                fontWeight: 600,
+              }}
+              onClick={() => navigate("/login")}
             >
               Login
             </span>

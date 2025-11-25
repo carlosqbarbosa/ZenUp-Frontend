@@ -42,13 +42,21 @@ const FormLogin: React.FC<FormLoginProps> = ({ onSubmit, onRegisterClick }) => {
       alert("Preencha todos os campos!");
       return;
     }
+    
     setLoading(true);
+    
     try {
       await login(email, password);
-      onSubmit(e);
+      navigate("/dashboard");
     } catch (error: any) {
       console.error("Erro no login:", error);
-      const errorMessage = error.response?.data?.message || "E-mail ou senha incorretos!";
+      
+      // Extrai a mensagem de erro do backend
+      const errorMessage = 
+        error.response?.data?.erro || 
+        error.response?.data?.message || 
+        "E-mail ou senha incorretos!";
+      
       alert(errorMessage);
     } finally {
       setLoading(false);

@@ -1,4 +1,4 @@
-import { api } from "./api";
+import api from "./api";
 
 export interface MoodMetrics {
   sentimentos: { nome: string; valor: number }[];
